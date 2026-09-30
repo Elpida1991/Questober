@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>QUESTOBER</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #050505;
+      color: #e8e8e8;
+      font-family: "Courier New", Courier, monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .screen {
+      width: 100%;
+      max-width: 760px;
+      min-height: 600px;
+      border: 1px solid #333;
+      padding: 55px 45px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 0 40px rgba(255,255,255,0.03);
+    }
+
+    .system {
+      position: absolute;
+      top: 18px;
+      left: 22px;
+      font-size: 11px;
+      color: #555;
+      letter-spacing: 2px;
+    }
+
+    .status {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      font-size: 11px;
+      color: #555;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      font-size: clamp(38px, 9vw, 72px);
+      letter-spacing: 8px;
+      margin: 0 0 8px;
+      font-weight: normal;
+    }
+
+    .date {
+      color: #777;
+      letter-spacing: 4px;
+      margin-bottom: 60px;
+    }
+
+    .terminal {
+      color: #888;
+      font-size: 13px;
+      line-height: 1.8;
+      margin-bottom: 35px;
+    }
+
+    .terminal span {
+      color: #ddd;
+    }
+
+    .message {
+      font-size: 16px;
+      line-height: 1.9;
+      max-width: 610px;
+      margin-bottom: 35px;
+    }
+
+    .creator {
+      color: #777;
+      font-size: 12px;
+      letter-spacing: 2px;
+      margin-top: 25px;
+    }
+
+    .choices {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 25px;
+    }
+
+    .pill {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 1px solid #444;
+      background: #111;
+      color: #aaa;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+
+    .pill:hover {
+      transform: scale(1.04);
+    }
+
+    .blue:hover {
+      border-color: #6d8cff;
+      color: #9eb0ff;
+      box-shadow: 0 0 30px rgba(80,110,255,0.18);
+    }
+
+    .red:hover {
+      border-color: #ff5555;
+      color: #ff8888;
+      box-shadow: 0 0 30px rgba(255,50,50,0.18);
+    }
+
+    .button {
+      background: transparent;
+      border: 1px solid #555;
+      color: #ccc;
+      padding: 14px 25px;
+      font-family: inherit;
+      cursor: pointer;
+      letter-spacing: 2px;
+      margin-top: 20px;
+      transition: all 0.25s ease;
+    }
+
+    .button:hover {
+      border-color: #aaa;
+      color: white;
+    }
+
+    .error {
+      color: #777;
+      font-size: 13px;
+      margin-top: 30px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .blink {
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 45% { opacity: 1; }
+      46%, 100% { opacity: 0.35; }
+    }
+
+    @media (max-width: 600px) {
+      .screen {
+        min-height: 90vh;
+        padding: 40px 25px;
+      }
+
+      .choices {
+        gap: 15px;
+      }
+
+      .pill {
+        width: 125px;
+        height: 125px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="screen">
+
+    <div class="system">QUESTOBER // 2026</div>
+    <div class="status">SYSTEM: ONLINE</div>
+
+    <!-- PANTALLA INICIAL -->
+    <section id="welcome">
+
+      <h1>QUESTOBER</h1>
+      <div class="date">OCTUBRE · 2026</div>
+
+      <div class="terminal">
+        &gt; SISTEMA DE ACCESO<br>
+        &gt; JUGADOR DETECTADO<br>
+        &gt; CONEXIÓN ESTABLECIDA
+      </div>
+
+      <div class="message">
+        He creado algo para ti.
+        <br><br>
+        Durante los próximos días encontrarás
+        una serie de quests.
+        <br><br>
+        No voy a explicarte exactamente qué son.
+        <br>
+        No voy a decirte cuántas hay.
+        <br>
+        Y tampoco voy a decirte qué encontrarás al final.
+        <br><br>
+        Pero primero tienes que decidir.
+        <br><br>
+        <strong>¿Quieres entrar?</strong>
+      </div>
+
+      <div class="choices">
+
+        <button class="pill blue" onclick="chooseBlue()">
+          🔵<br><br>
+          PASTILLA<br>
+          AZUL
+        </button>
+
+        <button class="pill red" onclick="chooseRed()">
+          🔴<br><br>
+          PASTILLA<br>
+          ROJA
+        </button>
+
+      </div>
+
+      <div class="creator">
+        — LA CREADORA
+      </div>
+
+    </section>
+
+
+    <!-- BUCLE DE LA PASTILLA AZUL -->
+    <section id="blueScreen" class="hidden">
+
+      <div class="terminal">
+        &gt; DECISIÓN REGISTRADA
+      </div>
+
+      <div class="message">
+
+        Has elegido la pastilla azul.
+        <br><br>
+
+        Buena elección.
+        <br><br>
+
+        Todo vuelve a la normalidad.
+        <br><br>
+
+        Puedes cerrar esta página.
+        <br>
+        No habrá más quests.
+        <br>
+        No habrá recompensas.
+        <br>
+        No habrá misterio.
+        <br><br>
+
+        No habrá...
+        <br><br>
+
+        <span class="blink">_</span>
+
+      </div>
+
+      <div class="error">
+        ERROR
+        <br><br>
+        El sistema no puede finalizar QUESTOBER.
+      </div>
+
+      <button class="button" onclick="returnToChoice()">
+        VOLVER
+      </button>
+
+      <div class="creator">
+        — LA CREADORA
+      </div>
+
+    </section>
+
+
+    <!-- QUESTOBER ACEPTADO -->
+    <section id="accepted" class="hidden">
+
+      <div class="terminal">
+        &gt; DECISIÓN REGISTRADA<br>
+        &gt; ACCESO CONCEDIDO<br>
+        &gt; QUESTOBER INICIADO
+      </div>
+
+      <div class="message">
+
+        Bienvenido a QUESTOBER.
+        <br><br>
+
+        A partir de ahora, el sistema determinará
+        cuándo hay una nueva misión disponible.
+        <br><br>
+
+        No todas las fechas estarán activas.
+        <br>
+        No todas las recompensas serán lo que parecen.
+        <br><br>
+
+        Y algunas cosas que recibas hoy
+        podrían tener utilidad mucho más adelante.
+        <br><br>
+
+        <strong>Tu primera quest comenzará el 03/10/2026.</strong>
+
+      </div>
+
+      <div class="terminal">
+        &gt; JUGADOR: 01<br>
+        &gt; ESTADO: ACTIVO<br>
+        &gt; QUESTS COMPLETADAS: 0<br>
+        &gt; PRÓXIMA ACTIVIDAD: 03/10/2026
+      </div>
+
+      <div class="creator">
+        — LA CREADORA
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    function hideAll() {
+      document.getElementById("welcome").classList.add("hidden");
+      document.getElementById("blueScreen").classList.add("hidden");
+      document.getElementById("accepted").classList.add("hidden");
+    }
+
+    function chooseBlue() {
+      hideAll();
+      document.getElementById("blueScreen").classList.remove("hidden");
+    }
+
+    function chooseRed() {
+      hideAll();
+      document.getElementById("accepted").classList.remove("hidden");
+    }
+
+    function returnToChoice() {
+      hideAll();
+      document.getElementById("welcome").classList.remove("hidden");
+    }
+
+  </script>
+
+</body>
+</html>
