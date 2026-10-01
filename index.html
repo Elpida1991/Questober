@@ -6,16 +6,27 @@
 
   <title>QUESTOBER</title>
 
-  <!-- Tipografía especial del título -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --bg: #07090d;
+      --panel: #0c1016;
+      --panel-soft: #10151c;
+      --line: #28303a;
+      --line-bright: #3b4551;
 
-    /* =========================================================
-       BASE
-    ========================================================= */
+      --text: #f0f2f4;
+      --text-soft: #c4cad1;
+      --muted: #78818c;
+
+      --error: #e05252;
+      --success: #2cc779;
+
+      --shadow: rgba(0, 0, 0, 0.45);
+    }
 
     * {
       box-sizing: border-box;
@@ -26,56 +37,92 @@
       margin: 0;
       width: 100%;
       min-height: 100%;
-      background: #080a0f;
-      color: #f1f3f5;
-      font-family: "Courier New", monospace;
     }
 
     body {
       min-height: 100vh;
+      background:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px),
+        var(--bg);
+      background-size: 40px 40px;
+
+      color: var(--text);
+      font-family: "IBM Plex Mono", monospace;
       overflow-x: hidden;
     }
 
+    /* ---------- HEADER ---------- */
 
-    /* =========================================================
-       FONDO
-    ========================================================= */
+    .system-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
 
-    .screen {
+      display: flex;
+      justify-content: space-between;
+
+      padding: 22px 26px;
+
+      color: #69727d;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* ---------- APP ---------- */
+
+    .app {
       min-height: 100vh;
-      display: none;
+
+      display: flex;
       align-items: center;
       justify-content: center;
-      padding: 32px 20px;
+
+      padding: 90px 20px 50px;
+    }
+
+    /* ---------- SCREENS ---------- */
+
+    .screen {
+      width: min(720px, 100%);
+
+      display: none;
+
       position: relative;
+
+      padding: 48px 52px;
+
+      background: rgba(12, 16, 22, 0.96);
+      border: 1px solid var(--line);
+
+      box-shadow:
+        0 24px 70px var(--shadow);
+
+      animation: screenIn 0.35s ease both;
     }
 
     .screen.active {
-      display: flex;
-      animation: appear 0.45s ease;
+      display: block;
     }
 
     .screen::before {
       content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
+      position: absolute;
+      top: -1px;
+      left: 40px;
 
-      background:
-        linear-gradient(
-          rgba(255,255,255,0.018) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255,255,255,0.018) 1px,
-          transparent 1px
-        );
+      width: 80px;
+      height: 2px;
 
-      background-size: 40px 40px;
+      background: var(--text);
     }
 
-    @keyframes appear {
+    @keyframes screenIn {
       from {
         opacity: 0;
         transform: translateY(8px);
@@ -87,907 +134,834 @@
       }
     }
 
+    /* ---------- SCREEN LABEL ---------- */
 
-    /* =========================================================
-       BARRA SUPERIOR
-    ========================================================= */
+    .screen-label {
+      display: inline-flex;
+      align-items: center;
 
-    .top-bar {
-      position: absolute;
-      top: 20px;
-      left: 24px;
-      right: 24px;
+      min-height: 28px;
 
-      display: flex;
-      justify-content: space-between;
+      padding: 0 11px;
 
-      color: #666d78;
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
+      border: 1px solid var(--line-bright);
+      background: var(--panel-soft);
 
-
-    /* =========================================================
-       PANEL
-    ========================================================= */
-
-    .panel {
-      width: min(720px, 100%);
-
-      border: 1px solid #272c35;
-      background: rgba(13, 16, 22, 0.94);
-
-      padding: 42px;
-
-      position: relative;
-
-      box-shadow:
-        0 25px 80px rgba(0,0,0,0.45);
-    }
-
-    .panel::before {
-      content: "";
-
-      position: absolute;
-      top: -1px;
-      left: 40px;
-
-      width: 80px;
-      height: 2px;
-
-      background: #d9dde3;
-    }
-
-
-    /* =========================================================
-       TEXTOS
-    ========================================================= */
-
-    .small {
-      color: #737b86;
+      color: var(--text-soft);
 
       font-size: 10px;
-      letter-spacing: 2.5px;
-
-      text-transform: uppercase;
-
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      margin: 0;
-
-      font-family: "Orbitron", sans-serif;
-      font-size: clamp(46px, 7vw, 58px);
-
       font-weight: 500;
-      letter-spacing: 5px;
-
-      line-height: 1.1;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
     }
 
-    h2 {
-      margin: 0 0 24px;
+    /* ---------- TYPOGRAPHY ---------- */
 
-      font-size: clamp(28px, 5vw, 34px);
-
-      font-weight: 400;
-      line-height: 1.25;
-    }
-
+    h1,
+    h2,
     p {
-      color: #c5cad1;
+      margin: 0;
+    }
+
+    .headline {
+      margin-top: 30px;
+
+      font-size: clamp(28px, 4vw, 34px);
+      line-height: 1.25;
+      font-weight: 400;
+      letter-spacing: -0.025em;
+    }
+
+    .body-text {
+      margin-top: 22px;
+
+      max-width: 590px;
+
+      color: var(--text-soft);
 
       font-size: 15px;
       line-height: 1.8;
+    }
 
-      margin: 12px 0;
+    .body-text.strong {
+      color: var(--text);
+      font-weight: 500;
     }
 
     .question {
-      margin: 16px 0;
+      margin-top: 24px;
 
-      font-size: 16px;
-      line-height: 1.7;
+      color: var(--text);
 
-      color: #e4e7eb;
+      font-size: 15px;
+      line-height: 1.8;
     }
 
-    .emphasis {
-      color: #ffffff;
-      font-weight: bold;
+    .signature {
+      margin-top: 30px;
+
+      color: var(--text);
+
+      font-size: 14px;
+      letter-spacing: 0.04em;
     }
 
-    .creator {
-      margin-top: 32px;
+    /* ---------- LOGO ---------- */
 
-      color: #cfd4da;
+    .logo-wrap {
+      margin-top: 26px;
 
-      letter-spacing: 2px;
-      font-size: 12px;
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      overflow: hidden;
     }
 
-
-    /* =========================================================
-       LOGOTIPO QUESTOBER
-    ========================================================= */
-
-    .game-title {
-      display: inline-block;
-
-      font-family: "Orbitron", sans-serif;
-
-      font-size: clamp(44px, 8vw, 58px);
-
-      font-weight: 500;
-      letter-spacing: 5px;
-
-      line-height: 1.1;
-
-      position: relative;
-    }
-
-    /*
-      Pequeño detalle propio de QUESTOBER:
-      una línea geométrica debajo del nombre.
-    */
-
-    .game-title::after {
-      content: "";
+    .logo {
+      width: min(620px, 100%);
+      height: auto;
 
       display: block;
 
-      width: 58px;
-      height: 1px;
+      mix-blend-mode: screen;
 
-      margin-top: 18px;
+      filter:
+        brightness(1.05)
+        contrast(1.04);
 
-      background: #cfd4da;
+      transform-origin: left center;
     }
 
-    .date {
-      margin-top: 18px;
+    .date-line {
+      margin-top: 4px;
 
-      color: #aeb5bf;
+      color: var(--text-soft);
 
       font-size: 13px;
-      letter-spacing: 2px;
+      letter-spacing: 0.17em;
     }
 
+    /* ---------- BUTTONS ---------- */
 
-    /* =========================================================
-       BOTONES
-    ========================================================= */
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
 
-    .button {
-      margin-top: 30px;
+      margin-top: 34px;
+    }
+
+    .system-button {
+      appearance: none;
+
+      border: 1px solid var(--line-bright);
+      background: transparent;
+
+      color: var(--text);
 
       padding: 13px 22px;
 
-      background: transparent;
-
-      color: #f1f3f5;
-
-      border: 1px solid #444b56;
-
       font-family: inherit;
-
       font-size: 11px;
-      letter-spacing: 2px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
 
       cursor: pointer;
 
       transition:
         background 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease,
-        border-color 0.2s ease;
+        border-color 0.2s ease,
+        transform 0.2s ease;
     }
 
-    .button:hover {
-      background: #f1f3f5;
-
-      color: #080a0f;
-
-      border-color: #f1f3f5;
-
-      transform: translateY(-2px);
+    .system-button:hover {
+      background: rgba(255,255,255,0.045);
+      border-color: #69737e;
+      transform: translateY(-1px);
     }
 
-
-    /* =========================================================
-       PORTADA
-    ========================================================= */
-
-    .opening-panel {
-      width: min(680px, 100%);
-
-      text-align: left;
-
-      padding: 52px;
+    .system-button:active {
+      transform: translateY(0);
     }
 
-    .opening-title {
-      margin-top: 4px;
-    }
+    /* ---------- CHOICE ---------- */
 
-    .opening-date {
-      margin-top: 20px;
-    }
+    .choice-intro {
+      margin-top: 26px;
 
-    .opening-button {
-      margin-top: 40px;
-    }
+      color: var(--text-soft);
 
-
-    /* =========================================================
-       ELECCIÓN DE PASTILLAS
-    ========================================================= */
-
-    .choice-panel {
-      width: min(900px, 100%);
-
-      text-align: center;
+      font-size: 14px;
+      line-height: 1.8;
     }
 
     .pills {
-      margin-top: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
 
-      display: flex;
-      justify-content: center;
-
-      gap: 36px;
-
-      flex-wrap: wrap;
+      margin-top: 36px;
     }
 
-    .pill {
-      width: 280px;
+    .pill-button {
+      position: relative;
 
-      padding: 0;
+      appearance: none;
+      border: 1px solid transparent;
+      background: transparent;
 
-      border: 1px solid #292e37;
-
-      background: #0d1016;
+      padding: 18px 12px 22px;
 
       cursor: pointer;
 
       transition:
-        transform 0.3s ease,
-        border-color 0.3s ease,
-        box-shadow 0.3s ease;
-
-      overflow: hidden;
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
     }
 
-    .pill:hover {
-      transform: translateY(-8px);
-
-      border-color: #747b87;
-
-      box-shadow:
-        0 20px 50px rgba(0,0,0,0.45);
+    .pill-button:hover {
+      background: rgba(255,255,255,0.025);
+      border-color: var(--line);
     }
 
-    .pill img {
+    .pill-image {
       display: block;
 
       width: 100%;
-      height: auto;
+      max-width: 235px;
+
+      margin: 0 auto;
+
+      transition:
+        transform 0.35s ease,
+        filter 0.35s ease;
     }
 
-    .pill-label {
-      padding: 16px;
-
-      color: #d9dde3;
-
-      font-size: 11px;
-      letter-spacing: 3px;
+    .pill-blue:hover .pill-image {
+      transform: translateX(-8px) scale(1.025);
     }
 
+    .pill-red:hover .pill-image {
+      transform: translateX(8px) scale(1.025);
+    }
 
-    /* =========================================================
-       STATUS
-    ========================================================= */
+    /* The red pill faces the opposite direction */
+    .pill-red .pill-image {
+      transform: scaleX(-1);
+    }
 
-    .status {
-      border-top: 1px solid #292e37;
-      border-bottom: 1px solid #292e37;
+    .pill-red:hover .pill-image {
+      transform: scaleX(-1) translateX(-8px) scale(1.025);
+    }
 
-      padding: 20px 0;
+    .pill-name {
+      display: block;
+
+      margin-top: 12px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    /* ---------- SYSTEM MESSAGES ---------- */
+
+    .message {
+      margin-top: 28px;
+
+      color: var(--text-soft);
+
+      font-size: 15px;
+      line-height: 1.85;
+    }
+
+    .message strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .error-word {
+      margin-top: 34px;
+
+      color: var(--error);
+
+      font-size: clamp(25px, 4vw, 32px);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+
+      text-transform: uppercase;
+
+      text-shadow: 0 0 18px rgba(224, 82, 82, 0.18);
+    }
+
+    .success-word {
+      margin-top: 28px;
+
+      color: var(--success);
+
+      font-size: clamp(21px, 3vw, 28px);
+      font-weight: 600;
+      letter-spacing: 0.07em;
+
+      text-transform: uppercase;
+
+      text-shadow: 0 0 18px rgba(44, 199, 121, 0.18);
+    }
+
+    .system-rule {
+      height: 1px;
 
       margin: 28px 0;
 
-      line-height: 2;
-
-      color: #aeb5bf;
-
-      font-size: 12px;
-
-      letter-spacing: 1px;
+      background: var(--line);
     }
 
-    .error {
-      color: #f0f2f5;
+    /* ---------- STATUS ---------- */
 
+    .status-block {
       margin-top: 24px;
 
-      padding: 18px;
+      display: grid;
+      gap: 10px;
 
-      border: 1px solid #444b56;
-
-      background: #10141b;
-
-      letter-spacing: 1px;
+      color: var(--text-soft);
 
       font-size: 13px;
+      line-height: 1.7;
     }
 
-    .access {
-      color: #ffffff;
-
-      letter-spacing: 3px;
-
-      font-size: 12px;
-
-      margin-bottom: 24px;
+    .status-row {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 18px;
     }
 
+    .status-key {
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
 
-    /* =========================================================
-       MÓVIL
-    ========================================================= */
+    .status-value {
+      color: var(--text);
+    }
 
-    @media (max-width: 600px) {
+    /* ---------- FINAL ---------- */
 
-      .panel {
-        padding: 32px 26px;
+    .final-text {
+      margin-top: 30px;
+
+      max-width: 580px;
+
+      color: var(--text-soft);
+
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+
+    @media (max-width: 680px) {
+
+      .system-header {
+        padding: 16px 18px;
+        font-size: 8px;
       }
 
-      .opening-panel {
-        padding: 38px 28px;
+      .app {
+        padding: 75px 14px 30px;
       }
 
-      .top-bar {
-        left: 16px;
-        right: 16px;
-
-        font-size: 9px;
+      .screen {
+        padding: 36px 25px;
       }
 
-      .pill {
-        width: min(300px, 90vw);
+      .screen::before {
+        left: 28px;
+        width: 65px;
+      }
+
+      .logo-wrap {
+        margin-top: 22px;
+      }
+
+      .headline {
+        font-size: 27px;
+      }
+
+      .body-text,
+      .message,
+      .final-text {
+        font-size: 14px;
       }
 
       .pills {
-        gap: 22px;
+        grid-template-columns: 1fr;
+        gap: 8px;
       }
 
-      h1,
-      .game-title {
-        letter-spacing: 3px;
+      .pill-button {
+        padding: 10px 12px 20px;
+      }
+
+      .pill-image {
+        max-width: 250px;
+      }
+
+      .status-row {
+        grid-template-columns: 1fr;
+        gap: 2px;
       }
     }
-
   </style>
 </head>
 
-
 <body>
 
+  <header class="system-header">
+    <span>QUESTOBER</span>
+    <span>OCTUBRE · 2026</span>
+  </header>
 
-  <!-- =======================================================
-       PANTALLA 1 · PORTADA
-  ======================================================== -->
+  <main class="app">
 
-  <section class="screen active" id="start">
+    <!-- ========================================================= -->
+    <!-- 01 · PORTADA                                             -->
+    <!-- ========================================================= -->
 
-    <div class="opening-panel panel">
+    <section class="screen active" id="start">
 
-      <div class="game-title opening-title">
-        QUESTOBER
+      <div class="logo-wrap">
+        <img
+          src="questober-logo.png"
+          alt="QUESTOBER"
+          class="logo"
+        >
       </div>
 
-      <div class="date opening-date">
+      <div class="date-line">
         OCTUBRE · 2026
       </div>
 
-      <button class="button opening-button" data-next="intro1">
-        CONTINUAR
-      </button>
+      <div class="button-row">
+        <button class="system-button" data-next="intro">
+          Continuar
+        </button>
+      </div>
 
-    </div>
-
-  </section>
+    </section>
 
 
-  <!-- =======================================================
-       PANTALLA 2 · BIENVENIDA
-  ======================================================== -->
+    <!-- ========================================================= -->
+    <!-- 02 · BIENVENIDA                                          -->
+    <!-- ========================================================= -->
 
-  <section class="screen" id="intro1">
+    <section class="screen" id="intro">
 
-    <div class="top-bar">
-      <span>QUESTOBER</span>
-      <span>01</span>
-    </div>
-
-    <div class="panel">
-
-      <div class="small">
+      <div class="screen-label">
         NUEVO JUGADOR DETECTADO
       </div>
 
-      <h2>
+      <h1 class="headline">
         Hola, Jugador 01.
-      </h2>
+      </h1>
 
-      <p>
+      <p class="body-text">
         He creado algo para ti.
       </p>
 
-      <p class="emphasis">
+      <p class="body-text strong">
         Próximamente se irán desbloqueando una serie de “quests”
         que tendrás que ir resolviendo.
       </p>
 
-      <button class="button" data-next="intro2">
-        CONTINUAR
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       PANTALLA 3 · PREGUNTAS
-  ======================================================== -->
-
-  <section class="screen" id="intro2">
-
-    <div class="top-bar">
-      <span>QUESTOBER</span>
-      <span>02</span>
-    </div>
-
-    <div class="panel">
-
-      <div class="small">
-        PROTOCOLO DE JUEGO
+      <div class="button-row">
+        <button class="system-button" data-next="questions">
+          Continuar
+        </button>
       </div>
 
-      <div class="question">
-        ¿Cuántas son?
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 03 · PREGUNTAS                                            -->
+    <!-- ========================================================= -->
+
+    <section class="screen" id="questions">
+
+      <div class="screen-label">
+        INFORMACIÓN DEL SISTEMA
       </div>
 
-      <div class="question">
-        ¿Cómo se resuelven?
-      </div>
-
-      <div class="question">
-        ¿Cuál es el objetivo final?
-      </div>
-
-      <p class="emphasis">
-        Tú tendrás que ir descubriendo todo esto...
+      <p class="question">
+        <strong>¿Cuántas son?</strong>
       </p>
 
-      <button class="button" data-next="choice">
-        CONTINUAR
-      </button>
+      <p class="question">
+        <strong>¿Cómo se resuelven?</strong>
+      </p>
 
-    </div>
+      <p class="question">
+        <strong>¿Cuál es el objetivo final?</strong>
+      </p>
 
-  </section>
+      <p class="question">
+        <strong>Tú tendrás que ir descubriendo todo esto...</strong>
+      </p>
 
-
-  <!-- =======================================================
-       ELECCIÓN DE PASTILLAS
-  ======================================================== -->
-
-  <section class="screen" id="choice">
-
-    <div class="top-bar">
-      <span>DECISIÓN REQUERIDA</span>
-      <span>03</span>
-    </div>
-
-    <div class="choice-panel">
-
-      <div class="small">
-        SELECCIONA UNA OPCIÓN
+      <div class="button-row">
+        <button class="system-button" data-next="choice">
+          Continuar
+        </button>
       </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 04 · ELECCIÓN                                             -->
+    <!-- ========================================================= -->
+
+    <section class="screen" id="choice">
+
+      <div class="screen-label">
+        ELECCIÓN REQUERIDA
+      </div>
+
+      <p class="choice-intro">
+        Selecciona una de las dos opciones.
+      </p>
 
       <div class="pills">
 
-        <button class="pill" id="blueButton">
-
+        <button class="pill-button pill-blue" id="blueButton">
           <img
             src="pill-blue.png"
-            alt="Pastilla azul"
+            alt="Pastilla"
+            class="pill-image"
           >
-
-          <div class="pill-label">
-            ELECCIÓN
-          </div>
-
+          <span class="pill-name">
+            Opción
+          </span>
         </button>
 
-
-        <button class="pill" id="redButton">
-
+        <button class="pill-button pill-red" id="redButton">
           <img
             src="pill-red.png"
-            alt="Pastilla roja"
+            alt="Pastilla"
+            class="pill-image"
           >
-
-          <div class="pill-label">
-            ELECCIÓN
-          </div>
-
+          <span class="pill-name">
+            Opción
+          </span>
         </button>
 
       </div>
 
-    </div>
-
-  </section>
+    </section>
 
 
-  <!-- =======================================================
-       AZUL 1
-  ======================================================== -->
+    <!-- ========================================================= -->
+    <!-- 05 · AZUL — PRIMERA RESPUESTA                            -->
+    <!-- ========================================================= -->
 
-  <section class="screen" id="blue1">
+    <section class="screen" id="blue1">
 
-    <div class="panel">
-
-      <div class="small">
+      <div class="screen-label">
         DECISIÓN REGISTRADA
       </div>
 
-      <h2>
+      <p class="message">
         Has elegido la pastilla azul.
-      </h2>
+      </p>
 
-      <p>
+      <p class="message">
         Buena elección.
       </p>
 
-      <p>
+      <p class="message">
         Todo vuelve a la normalidad.
       </p>
 
-      <p>
+      <p class="message">
         Puedes cerrar esta página.
       </p>
 
-      <p>
-        No habrá quests.
-      </p>
-
-      <p>
-        No habrá recompensas.
-      </p>
-
-      <p>
-        No habrá misterio.
-      </p>
-
-      <p>
+      <p class="message">
+        No habrá quests.<br>
+        No habrá recompensas.<br>
+        No habrá misterio.<br>
         No habrá...
       </p>
 
-      <div class="error">
-
-        ERROR
-
-        <br><br>
-
-        El sistema no puede finalizar QUESTOBER.
-
+      <div class="button-row">
+        <button class="system-button" data-next="error">
+          Continuar
+        </button>
       </div>
 
-      <button class="button" id="blueBack1">
-        VOLVER
-      </button>
-
-    </div>
-
-  </section>
+    </section>
 
 
-  <!-- =======================================================
-       AZUL 2
-  ======================================================== -->
+    <!-- ========================================================= -->
+    <!-- 06 · ERROR — PANTALLA INDEPENDIENTE                     -->
+    <!-- ========================================================= -->
 
-  <section class="screen" id="blue2">
+    <section class="screen" id="error">
 
-    <div class="panel">
+      <div class="screen-label">
+        ANOMALÍA DEL SISTEMA
+      </div>
 
-      <div class="small">
+      <div class="error-word">
+        ERROR
+      </div>
+
+      <p class="message">
+        El sistema no puede finalizar QUESTOBER.
+      </p>
+
+      <div class="button-row">
+        <button class="system-button" data-next="choice">
+          Volver
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 07 · AZUL — SEGUNDA RESPUESTA                            -->
+    <!-- ========================================================= -->
+
+    <section class="screen" id="blue2">
+
+      <div class="screen-label">
         DECISIÓN REGISTRADA
       </div>
 
-      <h2>
+      <p class="message">
         Has vuelto a elegir la pastilla azul.
-      </h2>
+      </p>
 
-      <p class="emphasis">
+      <p class="message strong">
         La Creadora recomienda reconsiderar tu decisión.
       </p>
 
-      <button class="button" id="blueBack2">
-        VOLVER
-      </button>
+      <div class="button-row">
+        <button class="system-button" data-next="choice">
+          Volver
+        </button>
+      </div>
 
-    </div>
-
-  </section>
+    </section>
 
 
-  <!-- =======================================================
-       AZUL 3
-  ======================================================== -->
+    <!-- ========================================================= -->
+    <!-- 08 · AZUL — TERCERA RESPUESTA                            -->
+    <!-- ========================================================= -->
 
-  <section class="screen" id="blue3">
+    <section class="screen" id="blue3">
 
-    <div class="panel">
-
-      <div class="small">
+      <div class="screen-label">
         DECISIÓN REGISTRADA
       </div>
 
-      <h2>
+      <p class="message">
         Vale, me has pillado.
-      </h2>
+      </p>
 
-      <p>
+      <p class="message">
         Esta opción no estaba contemplada...
       </p>
 
-      <p class="emphasis">
+      <p class="message strong">
         Por favor, escoge la roja.
       </p>
 
-      <button class="button" id="blueBack3">
-        VOLVER
-      </button>
+      <div class="button-row">
+        <button class="system-button" data-next="choice">
+          Volver
+        </button>
+      </div>
 
-    </div>
-
-  </section>
+    </section>
 
 
-  <!-- =======================================================
-       ROJA
-  ======================================================== -->
+    <!-- ========================================================= -->
+    <!-- 09 · ROJA — ACCESO CONCEDIDO                             -->
+    <!-- ========================================================= -->
 
-  <section class="screen" id="red">
+    <section class="screen" id="red">
 
-    <div class="panel">
-
-      <div class="small">
+      <div class="screen-label">
         DECISIÓN REGISTRADA
       </div>
 
-      <div class="access">
+      <div class="success-word">
         ACCESO CONCEDIDO
       </div>
 
-      <h2>
+      <p class="message strong">
         QUESTOBER INICIADO
-      </h2>
-
-      <div class="status">
-
-        JUGADOR: 01
-        <br>
-
-        ESTADO: ACTIVO
-        <br>
-
-        QUESTS COMPLETADAS: 0
-        <br>
-
-        PRÓXIMA ACTIVIDAD: PENDIENTE DE REVELAR
-
-      </div>
-
-      <button class="button" data-next="welcome">
-        CONTINUAR
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       BIENVENIDA
-  ======================================================== -->
-
-  <section class="screen" id="welcome">
-
-    <div class="panel">
-
-      <div class="small">
-        SISTEMA ONLINE
-      </div>
-
-      <h2>
-        BIENVENIDO A QUESTOBER
-      </h2>
-
-      <p>
-        A partir de ahora, el sistema determinará cuándo hay
-        una nueva misión disponible.
       </p>
 
-      <p>
+      <div class="system-rule"></div>
+
+      <div class="status-block">
+
+        <div class="status-row">
+          <span class="status-key">JUGADOR:</span>
+          <span class="status-value">01</span>
+        </div>
+
+        <div class="status-row">
+          <span class="status-key">ESTADO:</span>
+          <span class="status-value">ACTIVO</span>
+        </div>
+
+        <div class="status-row">
+          <span class="status-key">QUESTS COMPLETADAS:</span>
+          <span class="status-value">0</span>
+        </div>
+
+        <div class="status-row">
+          <span class="status-key">PRÓXIMA ACTIVIDAD:</span>
+          <span class="status-value">PENDIENTE DE REVELAR</span>
+        </div>
+
+      </div>
+
+      <div class="button-row">
+        <button class="system-button" data-next="welcome">
+          Continuar
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- 10 · BIENVENIDO A QUESTOBER                              -->
+    <!-- ========================================================= -->
+
+    <section class="screen" id="welcome">
+
+      <div class="screen-label">
+        SISTEMA INICIADO
+      </div>
+
+      <h1 class="headline">
+        BIENVENIDO A QUESTOBER
+      </h1>
+
+      <p class="body-text">
+        A partir de ahora, el sistema determinará cuándo hay una
+        nueva misión disponible.
+      </p>
+
+      <p class="body-text strong">
         Tu primera quest se desbloqueará pronto.
       </p>
 
-      <button class="button" data-next="final">
-        CONTINUAR
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       FINAL DE LA PRESENTACIÓN
-  ======================================================== -->
-
-  <section class="screen" id="final">
-
-    <div class="panel">
-
-      <div class="small">
-        PROTOCOLO INICIADO
+      <div class="button-row">
+        <button class="system-button" data-next="final">
+          Continuar
+        </button>
       </div>
 
-      <h2>
-        No todo es lo que parece.
-      </h2>
+    </section>
 
-      <p>
+
+    <!-- ========================================================= -->
+    <!-- 11 · CIERRE                                               -->
+    <!-- ========================================================= -->
+
+    <section class="screen" id="final">
+
+      <div class="screen-label">
+        INFORMACIÓN NO DISPONIBLE
+      </div>
+
+      <p class="final-text">
+        <strong>No todo es lo que parece.</strong>
+      </p>
+
+      <p class="final-text">
         Algunas cosas irán revelando su propósito con el tiempo.
       </p>
 
-      <div class="creator">
+      <p class="signature">
         — LA CREADORA
-      </div>
+      </p>
 
-    </div>
+    </section>
 
-  </section>
+  </main>
 
-
-  <!-- =======================================================
-       JAVASCRIPT
-  ======================================================== -->
 
   <script>
-
     const screens = document.querySelectorAll(".screen");
 
-
     function showScreen(id) {
-
-      screens.forEach(function(screen) {
-
+      screens.forEach(screen => {
         screen.classList.remove("active");
-
       });
 
-      document.getElementById(id).classList.add("active");
+      const target = document.getElementById(id);
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
+      if (target) {
+        target.classList.add("active");
+        window.scrollTo(0, 0);
+      }
     }
 
-
-    /* Botones normales */
-
-    document
-      .querySelectorAll("[data-next]")
-      .forEach(function(button) {
-
-        button.addEventListener("click", function() {
-
-          showScreen(button.dataset.next);
-
-        });
-
+    document.querySelectorAll("[data-next]").forEach(button => {
+      button.addEventListener("click", function () {
+        showScreen(this.dataset.next);
       });
+    });
 
 
-    /* =======================================================
-       PASTILLA AZUL
-    ======================================================== */
+    /* -----------------------------------------------------------
+       ELECCIÓN AZUL
+    ----------------------------------------------------------- */
 
     let blueAttempts = 0;
 
+    document.getElementById("blueButton").addEventListener("click", function () {
 
-    document
-      .getElementById("blueButton")
-      .addEventListener("click", function() {
+      blueAttempts++;
 
-        blueAttempts++;
+      if (blueAttempts === 1) {
+        showScreen("blue1");
+      }
 
+      else if (blueAttempts === 2) {
+        showScreen("blue2");
+      }
 
-        if (blueAttempts === 1) {
+      else {
+        showScreen("blue3");
+      }
 
-          showScreen("blue1");
-
-        }
-
-        else if (blueAttempts === 2) {
-
-          showScreen("blue2");
-
-        }
-
-        else {
-
-          showScreen("blue3");
-
-        }
-
-      });
+    });
 
 
-    /* Volver desde las pantallas azules */
+    /* -----------------------------------------------------------
+       ELECCIÓN ROJA
+    ----------------------------------------------------------- */
 
-    document
-      .getElementById("blueBack1")
-      .addEventListener("click", function() {
-
-        showScreen("choice");
-
-      });
-
-
-    document
-      .getElementById("blueBack2")
-      .addEventListener("click", function() {
-
-        showScreen("choice");
-
-      });
-
-
-    document
-      .getElementById("blueBack3")
-      .addEventListener("click", function() {
-
-        showScreen("choice");
-
-      });
-
-
-    /* =======================================================
-       PASTILLA ROJA
-    ======================================================== */
-
-    document
-      .getElementById("redButton")
-      .addEventListener("click", function() {
-
-        showScreen("red");
-
-      });
-
+    document.getElementById("redButton").addEventListener("click", function () {
+      showScreen("red");
+    });
   </script>
-
 
 </body>
 </html>
