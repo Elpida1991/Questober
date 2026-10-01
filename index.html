@@ -1,20 +1,544 @@
-else {
-        showScreen("blue3");
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>QUESTOBER</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
     }
 
-}
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #080a0f;
+      color: #f1f3f5;
+      font-family: "Courier New", monospace;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .screen {
+      min-height: 100vh;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+      position: relative;
+    }
+
+    .screen.active {
+      display: flex;
+      animation: appear 0.45s ease;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .screen::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .top-bar {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      right: 24px;
+      display: flex;
+      justify-content: space-between;
+      color: #727986;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .panel {
+      width: min(720px, 100%);
+      border: 1px solid #272c35;
+      background: rgba(13, 16, 22, 0.94);
+      padding: 42px;
+      position: relative;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.45);
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: 40px;
+      width: 80px;
+      height: 2px;
+      background: #d9dde3;
+    }
+
+    .small {
+      color: #7c838e;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0 0 28px;
+      font-size: clamp(38px, 8vw, 72px);
+      letter-spacing: 8px;
+      font-weight: 400;
+    }
+
+    h2 {
+      margin: 0 0 28px;
+      font-size: clamp(25px, 5vw, 42px);
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    p {
+      color: #c5cad1;
+      font-size: 16px;
+      line-height: 1.8;
+      margin: 12px 0;
+    }
+
+    .question {
+      margin: 18px 0;
+      font-size: 18px;
+      color: #f0f2f5;
+    }
+
+    .emphasis {
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .creator {
+      margin-top: 34px;
+      color: #cfd4da;
+      letter-spacing: 2px;
+      font-size: 13px;
+    }
+
+    .button {
+      margin-top: 32px;
+      padding: 14px 24px;
+      background: transparent;
+      color: #f1f3f5;
+      border: 1px solid #444b56;
+      font-family: inherit;
+      font-size: 12px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .button:hover {
+      background: #f1f3f5;
+      color: #080a0f;
+      border-color: #f1f3f5;
+      transform: translateY(-2px);
+    }
+
+    .choice-panel {
+      width: min(900px, 100%);
+      text-align: center;
+    }
+
+    .pills {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      width: 280px;
+      padding: 0;
+      border: 1px solid #292e37;
+      background: #0d1016;
+      cursor: pointer;
+      transition: 0.3s ease;
+      overflow: hidden;
+    }
+
+    .pill:hover {
+      transform: translateY(-8px);
+      border-color: #747b87;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+    }
+
+    .pill img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .pill-label {
+      padding: 16px;
+      color: #d9dde3;
+      font-size: 12px;
+      letter-spacing: 3px;
+    }
+
+    .status {
+      border-top: 1px solid #292e37;
+      border-bottom: 1px solid #292e37;
+      padding: 22px 0;
+      margin: 30px 0;
+      line-height: 2;
+      color: #aeb5bf;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .error {
+      color: #f0f2f5;
+      margin-top: 26px;
+      padding: 18px;
+      border: 1px solid #444b56;
+      background: #10141b;
+      letter-spacing: 1px;
+    }
+
+    .access {
+      color: #ffffff;
+      letter-spacing: 4px;
+      font-size: 13px;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 600px) {
+      .panel {
+        padding: 30px 24px;
+      }
+
+      .top-bar {
+        left: 16px;
+        right: 16px;
+        font-size: 9px;
+      }
+
+      .pill {
+        width: min(300px, 90vw);
+      }
+
+      .pills {
+        gap: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- PANTALLA 1 -->
+  <section class="screen active" id="start">
+    <div class="top-bar">
+      <span>QUESTOBER</span>
+      <span>OCTUBRE · 2026</span>
+    </div>
+
+    <div class="panel">
+      <div class="small">QUESTOBER · 2026</div>
+
+      <h1>QUESTOBER</h1>
+
+      <p>OCTUBRE · 2026</p>
+
+      <button class="button" data-next="intro1">
+        CONTINUAR
+      </button>
+    </div>
+  </section>
 
 
-function backToChoice() {
-    showScreen(4);
-}
+  <!-- PANTALLA 2 -->
+  <section class="screen" id="intro1">
+    <div class="top-bar">
+      <span>QUESTOBER</span>
+      <span>01</span>
+    </div>
+
+    <div class="panel">
+      <div class="small">NUEVO JUGADOR DETECTADO</div>
+
+      <h2>Hola, Jugador 01.</h2>
+
+      <p>He creado algo para ti.</p>
+
+      <p class="emphasis">
+        Próximamente se irán desbloqueando una serie de “quests” que tendrás que ir resolviendo.
+      </p>
+
+      <button class="button" data-next="intro2">
+        CONTINUAR
+      </button>
+    </div>
+  </section>
 
 
-function chooseRed() {
-    showScreen("red1");
-}
+  <!-- PANTALLA 3 -->
+  <section class="screen" id="intro2">
+    <div class="top-bar">
+      <span>QUESTOBER</span>
+      <span>02</span>
+    </div>
 
-</script>
+    <div class="panel">
+      <div class="small">PROTOCOLO DE JUEGO</div>
+
+      <div class="question">¿Cuántas son?</div>
+      <div class="question">¿Cómo se resuelven?</div>
+      <div class="question">¿Cuál es el objetivo final?</div>
+
+      <p class="emphasis">
+        Tú tendrás que ir descubriendo todo esto...
+      </p>
+
+      <button class="button" data-next="choice">
+        CONTINUAR
+      </button>
+    </div>
+  </section>
+
+
+  <!-- ELECCIÓN DE PASTILLAS -->
+  <section class="screen" id="choice">
+    <div class="top-bar">
+      <span>DECISIÓN REQUERIDA</span>
+      <span>03</span>
+    </div>
+
+    <div class="choice-panel">
+      <div class="small">SELECCIONA UNA OPCIÓN</div>
+
+      <div class="pills">
+
+        <button class="pill" id="blueButton">
+          <img src="pill-blue.png" alt="Pastilla azul">
+          <div class="pill-label">ELECCIÓN</div>
+        </button>
+
+        <button class="pill" id="redButton">
+          <img src="pill-red.png" alt="Pastilla roja">
+          <div class="pill-label">ELECCIÓN</div>
+        </button>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- AZUL 1 -->
+  <section class="screen" id="blue1">
+    <div class="panel">
+      <div class="small">DECISIÓN REGISTRADA</div>
+
+      <h2>Has elegido la pastilla azul.</h2>
+
+      <p>Buena elección.</p>
+
+      <p>Todo vuelve a la normalidad.</p>
+
+      <p>Puedes cerrar esta página.</p>
+
+      <p>No habrá quests.</p>
+      <p>No habrá recompensas.</p>
+      <p>No habrá misterio.</p>
+      <p>No habrá...</p>
+
+      <div class="error">
+        ERROR<br><br>
+        El sistema no puede finalizar QUESTOBER.
+      </div>
+
+      <button class="button" id="blueBack1">
+        VOLVER
+      </button>
+    </div>
+  </section>
+
+
+  <!-- AZUL 2 -->
+  <section class="screen" id="blue2">
+    <div class="panel">
+      <div class="small">DECISIÓN REGISTRADA</div>
+
+      <h2>Has vuelto a elegir la pastilla azul.</h2>
+
+      <p class="emphasis">
+        La Creadora recomienda reconsiderar tu decisión.
+      </p>
+
+      <button class="button" id="blueBack2">
+        VOLVER
+      </button>
+    </div>
+  </section>
+
+
+  <!-- AZUL 3 -->
+  <section class="screen" id="blue3">
+    <div class="panel">
+      <div class="small">DECISIÓN REGISTRADA</div>
+
+      <h2>Vale, me has pillado.</h2>
+
+      <p>Esta opción no estaba contemplada...</p>
+
+      <p class="emphasis">
+        Por favor, escoge la roja.
+      </p>
+
+      <button class="button" id="blueBack3">
+        VOLVER
+      </button>
+    </div>
+  </section>
+
+
+  <!-- ROJA -->
+  <section class="screen" id="red">
+    <div class="panel">
+      <div class="small">DECISIÓN REGISTRADA</div>
+
+      <div class="access">ACCESO CONCEDIDO</div>
+
+      <h2>QUESTOBER INICIADO</h2>
+
+      <div class="status">
+        JUGADOR: 01<br>
+        ESTADO: ACTIVO<br>
+        QUESTS COMPLETADAS: 0<br>
+        PRÓXIMA ACTIVIDAD: PENDIENTE DE REVELAR
+      </div>
+
+      <button class="button" data-next="welcome">
+        CONTINUAR
+      </button>
+    </div>
+  </section>
+
+
+  <!-- BIENVENIDA -->
+  <section class="screen" id="welcome">
+    <div class="panel">
+      <div class="small">SISTEMA ONLINE</div>
+
+      <h2>BIENVENIDO A QUESTOBER</h2>
+
+      <p>
+        A partir de ahora, el sistema determinará cuándo hay una nueva misión disponible.
+      </p>
+
+      <p>
+        Tu primera quest se desbloqueará pronto.
+      </p>
+
+      <button class="button" data-next="final">
+        CONTINUAR
+      </button>
+    </div>
+  </section>
+
+
+  <!-- FINAL DE LA PRESENTACIÓN -->
+  <section class="screen" id="final">
+    <div class="panel">
+      <div class="small">PROTOCOLO INICIADO</div>
+
+      <h2>No todo es lo que parece.</h2>
+
+      <p>
+        Algunas cosas irán revelando su propósito con el tiempo.
+      </p>
+
+      <div class="creator">
+        — LA CREADORA
+      </div>
+    </div>
+  </section>
+
+
+  <script>
+    const screens = document.querySelectorAll(".screen");
+
+    function showScreen(id) {
+      screens.forEach(function(screen) {
+        screen.classList.remove("active");
+      });
+
+      document.getElementById(id).classList.add("active");
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    document.querySelectorAll("[data-next]").forEach(function(button) {
+      button.addEventListener("click", function() {
+        showScreen(button.dataset.next);
+      });
+    });
+
+
+    let blueAttempts = 0;
+
+    document.getElementById("blueButton").addEventListener("click", function() {
+      blueAttempts++;
+
+      if (blueAttempts === 1) {
+        showScreen("blue1");
+      } else if (blueAttempts === 2) {
+        showScreen("blue2");
+      } else {
+        showScreen("blue3");
+      }
+    });
+
+
+    document.getElementById("blueBack1").addEventListener("click", function() {
+      showScreen("choice");
+    });
+
+    document.getElementById("blueBack2").addEventListener("click", function() {
+      showScreen("choice");
+    });
+
+    document.getElementById("blueBack3").addEventListener("click", function() {
+      showScreen("choice");
+    });
+
+
+    document.getElementById("redButton").addEventListener("click", function() {
+      showScreen("red");
+    });
+  </script>
 
 </body>
 </html>
