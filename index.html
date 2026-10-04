@@ -945,9 +945,9 @@
 
       <section id="calibration" class="screen">
 
-  <div class="system-label">
-    CALIBRANDO SISTEMA PARA INICIALIZACIÓN
-  </div>
+  <div class="screen-label">
+        CALIBRANDO SISTEMA PARA INICIALIZACIÓN
+      </div>
 
   <div class="progress-container">
     <div class="progress-bar">
@@ -1002,9 +1002,12 @@ if (quest === "01") {
 
     let blueAttempts = 0;
 
-    document.getElementById("blueButton").addEventListener("click", function () {
+    const blueButton = document.getElementById("blueButton");
 
-      blueAttempts++;
+    if (blueButton) {
+      blueButton.addEventListener("click", function () {
+
+        blueAttempts++;
 
       if (blueAttempts === 1) {
         showScreen("blue1");
@@ -1016,18 +1019,23 @@ if (quest === "01") {
 
       else {
         showScreen("blue3");
-      }
+        }
 
-    });
+      });
+    }
 
 
     /* -----------------------------------------------------------
        ELECCIÓN ROJA
     ----------------------------------------------------------- */
 
-    document.getElementById("redButton").addEventListener("click", function () {
-      showScreen("red");
-    });
+    const redButton = document.getElementById("redButton");
+
+    if (redButton) {
+      redButton.addEventListener("click", function () {
+        showScreen("red");
+      });
+    }
  const calibrationBar = document.querySelector("#calibration .progress-fill");
 
 if (quest === "01" && calibrationBar) {
