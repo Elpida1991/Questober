@@ -1049,6 +1049,93 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 .activation-switch.locked .switch-handle {
   bottom: 2px;
 }
+
+    /* ---------- M01 ---------- */
+
+.m01-sequence {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+
+  margin: 52px auto 36px;
+
+  font-size: 24px;
+  letter-spacing: 0.08em;
+}
+
+.m01-sequence span {
+  width: 38px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-bottom: 1px solid var(--line-bright);
+
+  color: var(--text-soft);
+}
+
+.m01-sequence .missing-letter {
+  color: var(--muted);
+  border-bottom-color: #69727d;
+}
+
+.m01-input-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 28px;
+}
+
+.m01-input {
+  width: 72px;
+  height: 44px;
+
+  border: 1px solid var(--line-bright);
+  background: #0b0f14;
+
+  color: var(--text);
+  font-family: inherit;
+  font-size: 18px;
+  text-align: center;
+  text-transform: uppercase;
+
+  outline: none;
+}
+
+.m01-input:focus {
+  border-color: #697582;
+  box-shadow: 0 0 10px rgba(255,255,255,.05);
+}
+
+.number-input {
+  text-transform: none;
+}
+
+.m01-error {
+  display: none;
+
+  margin-top: 28px;
+
+  color: var(--error);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-align: center;
+}
+
+.a1z26-label {
+  margin-top: 70px;
+
+  text-align: center;
+
+  font-size: 18px;
+  letter-spacing: 0.22em;
+  color: var(--text);
+}
     
   </style>
 </head>
@@ -1578,6 +1665,96 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 
 </section>
 
+<!-- ========================================================= -->
+<!--  M01 · PRIMER PUZZLE                                     -->
+<!-- ========================================================= -->
+
+<section id="m01" class="screen">
+
+  <div class="screen-label">
+    QUEST 01 // MÓDULO 01
+  </div>
+
+  <h1 class="headline">
+    IDENTIFICA EL ELEMENTO AUSENTE
+  </h1>
+
+  <div class="m01-sequence">
+    <span>Z</span>
+    <span>X</span>
+    <span>C</span>
+    <span>V</span>
+    <span class="missing-letter">—</span>
+    <span>N</span>
+    <span>M</span>
+  </div>
+
+  <div id="m01-error" class="m01-error">
+    RESPUESTA INCORRECTA
+  </div>
+
+  <div class="m01-input-area">
+
+    <input
+      id="m01-letter"
+      class="m01-input"
+      type="text"
+      maxlength="1"
+      autocomplete="off"
+      autocapitalize="characters"
+      spellcheck="false"
+      aria-label="Respuesta"
+    >
+
+    <button id="m01-letter-submit" class="system-button">
+      ENVIAR
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!--  M01 · A1Z26                                              -->
+<!-- ========================================================= -->
+
+<section id="m01-a1z26" class="screen">
+
+  <div class="screen-label">
+    QUEST 01 // MÓDULO 01
+  </div>
+
+  <div class="a1z26-label">
+    A1Z26
+  </div>
+
+  <div id="m01-number-error" class="m01-error">
+    RESPUESTA INCORRECTA
+  </div>
+
+  <div class="m01-input-area">
+
+    <input
+      id="m01-number"
+      class="m01-input number-input"
+      type="number"
+      inputmode="numeric"
+      min="1"
+      max="26"
+      step="1"
+      autocomplete="off"
+      aria-label="Número"
+    >
+
+    <button id="m01-number-submit" class="system-button">
+      ENVIAR
+    </button>
+
+  </div>
+
+</section>
+    
   </main>
 
   <script>
@@ -1753,6 +1930,112 @@ codeArrows.forEach(button => {
 });
 
 updateCalibrationCode();
+
+/* -----------------------------------------------------------
+   M01 · PRIMER PUZZLE
+----------------------------------------------------------- */
+
+const recoverCodeButton = document.getElementById("recover-code");
+
+if (recoverCodeButton) {
+
+  recoverCodeButton.addEventListener("click", function () {
+    showScreen("m01");
+
+    const letterInput = document.getElementById("m01-letter");
+
+    if (letterInput) {
+      letterInput.value = "";
+      setTimeout(() => letterInput.focus(), 100);
+    }
+  });
+
+}
+
+
+const m01LetterSubmit = document.getElementById("m01-letter-submit");
+const m01LetterInput = document.getElementById("m01-letter");
+const m01Error = document.getElementById("m01-error");
+
+if (m01LetterSubmit) {
+
+  m01LetterSubmit.addEventListener("click", function () {
+
+    const answer = m01LetterInput.value.trim().toUpperCase();
+
+    if (answer === "B") {
+
+      m01Error.style.display = "none";
+
+      showScreen("m01-a1z26");
+
+      const numberInput = document.getElementById("m01-number");
+
+      if (numberInput) {
+        numberInput.value = "";
+        setTimeout(() => numberInput.focus(), 100);
+      }
+
+    } else {
+
+      m01Error.style.display = "block";
+
+      m01LetterInput.value = "";
+
+      setTimeout(() => {
+        m01Error.style.display = "none";
+      }, 1400);
+
+    }
+
+  });
+
+}
+
+
+const m01NumberSubmit = document.getElementById("m01-number-submit");
+const m01NumberInput = document.getElementById("m01-number");
+const m01NumberError = document.getElementById("m01-number-error");
+
+if (m01NumberSubmit) {
+
+  m01NumberSubmit.addEventListener("click", function () {
+
+    const answer = m01NumberInput.value;
+
+    if (answer === "2") {
+
+  m01NumberError.style.display = "none";
+
+  /*
+    M01 COMPLETADO.
+    El valor 2 queda reservado como primer
+    elemento del código de calibración.
+  */
+
+} else {
+
+  m01NumberError.style.display = "block";
+
+  setTimeout(() => {
+
+    m01NumberError.style.display = "none";
+
+    m01NumberInput.value = "";
+
+    showScreen("m01-a1z26");
+
+    setTimeout(() => {
+      m01NumberInput.focus();
+    }, 100);
+
+  }, 1400);
+
+}
+
+  });
+
+}
     
   </script>
 
