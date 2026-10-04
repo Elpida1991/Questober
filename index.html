@@ -1162,7 +1162,7 @@
     </div>
   </div>
 
-        <button id="calibration-continue" class="system-button">
+  <button id="calibration-continue" class="system-button" data-next="calibration-panel">
   CONTINUAR
 </button>
         
@@ -1334,14 +1334,6 @@ if (quest === "01") {
       });
     }
  const calibrationBar = document.querySelector("#calibration .progress-fill");
-
-    const calibrationContinue = document.getElementById("calibration-continue");
-
-if (calibrationContinue) {
-    calibrationContinue.addEventListener("click", function () {
-        showScreen("calibration-panel");
-    });
-}
 
 if (quest === "01" && calibrationBar) {
 
