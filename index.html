@@ -560,7 +560,7 @@
 }
 
 #calibration-continue {
-  display: block;
+  display: none;
   margin: 28px auto 0;
 }
 
@@ -1356,16 +1356,21 @@ if (quest === "01" && calibrationBar) {
 
     function advanceCalibration() {
 
-        if (step >= progressSteps.length) {
-           setTimeout(() => {
-                const errorMessage = document.getElementById("calibration-error");
+  if (step >= progressSteps.length) {
+    setTimeout(() => {
+        const errorMessage = document.getElementById("calibration-error");
+        const continueButton = document.getElementById("calibration-continue");
 
-                if (errorMessage) {
-                    errorMessage.style.display = "block";
-                }
-            }, 3000);
-            return;
+        if (errorMessage) {
+            errorMessage.style.display = "block";
         }
+
+        if (continueButton) {
+            continueButton.style.display = "block";
+        }
+    }, 3000);
+    return;
+}
 
         const current = progressSteps[step];
 
