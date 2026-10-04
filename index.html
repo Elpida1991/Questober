@@ -984,6 +984,70 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
     0 0 6px rgba(44,199,121,.75),
     0 0 14px rgba(44,199,121,.3);
 }
+
+    /* ---------- ACTIVACIÓN ---------- */
+
+.activation-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.activation-switch {
+  width: 42px;
+  height: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+}
+
+.switch-track {
+  width: 18px;
+  height: 48px;
+
+  position: relative;
+
+  border: 1px solid var(--line-bright);
+  background: #080c11;
+
+  box-shadow:
+    inset 0 0 8px rgba(0,0,0,.7);
+}
+
+.switch-handle {
+  position: absolute;
+
+  left: 2px;
+  bottom: 2px;
+
+  width: 12px;
+  height: 20px;
+
+  background: #252c34;
+  border: 1px solid #424c57;
+
+  box-shadow:
+    0 2px 5px rgba(0,0,0,.6);
+
+  transition:
+    bottom 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Interruptor bloqueado mientras falta el código */
+
+.activation-switch.locked {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.activation-switch.locked .switch-handle {
+  bottom: 2px;
+}
     
   </style>
 </head>
@@ -1489,13 +1553,15 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
         <div class="control-value">RESTRINGIDO</div>
       </div>
 
-      <div class="control-block decorative-control">
-        <div class="control-label">ACTIVACIÓN</div>
-        <div class="control-buttons">
-          <span>◀</span>
-          <span>▶</span>
-        </div>
-      </div>
+      <div class="control-block activation-block">
+  <div class="control-label">ACTIVACIÓN</div>
+
+  <div class="activation-switch locked">
+    <div class="switch-track">
+      <div class="switch-handle"></div>
+    </div>
+  </div>
+</div>
 
     </div>
 
