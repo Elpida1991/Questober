@@ -910,6 +910,19 @@
   </main>
 
 
+  <section id="calibration" class="screen">
+
+  <div class="system-label">
+    CALIBRANDO SISTEMA PARA INICIALIZACIÓN
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+  </div>
+
+</section>
   <script>
     const screens = document.querySelectorAll(".screen");
 
@@ -925,7 +938,14 @@
         window.scrollTo(0, 0);
       }
     }
+const params = new URLSearchParams(window.location.search);
+const quest = params.get("q");
 
+if (quest === "01") {
+    showScreen("calibration");
+}
+
+    
     document.querySelectorAll("[data-next]").forEach(button => {
       button.addEventListener("click", function () {
         showScreen(this.dataset.next);
