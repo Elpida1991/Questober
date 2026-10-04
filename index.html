@@ -648,16 +648,52 @@
   letter-spacing: 0.08em;
   color: var(--text-soft);
 }
+.control-block:nth-last-child(2) .control-value {
+color: #e05252;
+text-shadow: 0 0 8px rgba(224, 82, 82, 0.28);
+animation: restrictedPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes restrictedPulse {
+  0%, 100% {
+    opacity: 0.65;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
 
 .status-light {
   display: inline-block;
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   margin-right: 8px;
   border-radius: 50%;
   vertical-align: middle;
-  background: var(--muted);
-  box-shadow: 0 0 7px rgba(120, 130, 145, 0.35);
+
+  background: #e6b84a;
+  box-shadow:
+    0 0 6px rgba(230, 184, 74, 0.55),
+    0 0 14px rgba(230, 184, 74, 0.22);
+
+  animation: powerPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes powerPulse {
+  0%, 100% {
+    opacity: 0.45;
+    box-shadow:
+      0 0 4px rgba(230, 184, 74, 0.35),
+      0 0 10px rgba(230, 184, 74, 0.12);
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow:
+      0 0 8px rgba(230, 184, 74, 0.75),
+      0 0 18px rgba(230, 184, 74, 0.3);
+  }
 }
 
 .indicator-bar {
@@ -674,16 +710,52 @@
 }
 
 .signal-indicator {
+  position: relative;
   display: flex;
-  gap: 5px;
-  margin-top: 18px;
+  align-items: center;
+  gap: 4px;
+  height: 18px;
+  margin-top: 12px;
+  overflow: hidden;
 }
 
 .signal-indicator span {
-  width: 5px;
-  height: 5px;
+  display: block;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
+  background: #2cc779;
+  box-shadow: 0 0 7px rgba(44, 199, 121, 0.65);
+
+  animation: signalPulse 1.4s ease-in-out infinite;
+}
+
+.signal-indicator span:nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+.signal-indicator span:nth-child(3) {
+  animation-delay: 0.16s;
+}
+
+.signal-indicator span:nth-child(4) {
+  animation-delay: 0.24s;
+}
+
+.signal-indicator span:nth-child(5) {
+  animation-delay: 0.32s;
+}
+
+@keyframes signalPulse {
+  0%, 100% {
+    opacity: 0.25;
+    transform: translateY(2px);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
 }
 
 .calibration-module {
