@@ -880,6 +880,110 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
     height: 56px;
   }
 }
+
+.code-entry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 26px;
+}
+
+.code-slots {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.code-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.code-arrow {
+  width: 58px;
+  height: 24px;
+
+  border: 1px solid var(--line-bright);
+  background: #0b0f14;
+  color: var(--muted);
+
+  font-family: inherit;
+  font-size: 9px;
+  cursor: pointer;
+
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.code-arrow:hover {
+  border-color: #697582;
+  color: var(--text);
+  background: #11161d;
+}
+
+.code-arrow:active {
+  background: #171d25;
+}
+
+.code-slot {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--line-bright);
+  background: #0d1218;
+
+  color: var(--text-soft);
+  font-size: 20px;
+
+  box-shadow:
+    inset 0 0 18px rgba(255,255,255,0.025);
+}
+
+.code-indicators {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding-left: 2px;
+}
+
+.code-indicator {
+  display: block;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #20262d;
+  box-shadow: none;
+
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.code-indicator.yellow {
+  background: #e6b84a;
+  box-shadow:
+    0 0 6px rgba(230,184,74,.7),
+    0 0 12px rgba(230,184,74,.25);
+}
+
+.code-indicator.green {
+  background: #2cc779;
+  box-shadow:
+    0 0 6px rgba(44,199,121,.75),
+    0 0 14px rgba(44,199,121,.3);
+}
     
   </style>
 </head>
@@ -1341,11 +1445,37 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
           CÓDIGO DE CALIBRACIÓN
         </div>
 
-        <div class="code-slots">
-          <div class="code-slot">—</div>
-          <div class="code-slot">—</div>
-          <div class="code-slot">—</div>
-        </div>
+        <div class="code-entry">
+
+  <div class="code-slots">
+
+    <div class="code-selector">
+      <button class="code-arrow" data-position="0" data-direction="up">▲</button>
+      <div class="code-slot" data-position="0">—</div>
+      <button class="code-arrow" data-position="0" data-direction="down">▼</button>
+    </div>
+
+    <div class="code-selector">
+      <button class="code-arrow" data-position="1" data-direction="up">▲</button>
+      <div class="code-slot" data-position="1">—</div>
+      <button class="code-arrow" data-position="1" data-direction="down">▼</button>
+    </div>
+
+    <div class="code-selector">
+      <button class="code-arrow" data-position="2" data-direction="up">▲</button>
+      <div class="code-slot" data-position="2">—</div>
+      <button class="code-arrow" data-position="2" data-direction="down">▼</button>
+    </div>
+
+  </div>
+
+  <div class="code-indicators">
+    <span class="code-indicator"></span>
+    <span class="code-indicator"></span>
+    <span class="code-indicator"></span>
+  </div>
+
+</div>
 
         <div class="module-status-screen">
   <div class="module-status">ESTADO: INCOMPLETO</div>
@@ -1506,6 +1636,72 @@ if (quest === "01" && calibrationBar) {
 
     setTimeout(advanceCalibration, 500);
 }
+
+/* -----------------------------------------------------------
+   CÓDIGO DE CALIBRACIÓN
+----------------------------------------------------------- */
+
+const calibrationCode = [2, 3, 4]; // provisional para probar
+
+const codeValues = [0, 0, 0];
+
+const codeSlots = document.querySelectorAll(".code-slot");
+const codeIndicators = document.querySelectorAll(".code-indicator");
+const codeArrows = document.querySelectorAll(".code-arrow");
+
+function updateCalibrationCode() {
+
+  codeSlots.forEach((slot, index) => {
+    slot.textContent = codeValues[index];
+  });
+
+  codeIndicators.forEach((indicator, index) => {
+
+    indicator.classList.remove("yellow", "green");
+
+    if (codeValues[index] === calibrationCode[index]) {
+
+      indicator.classList.add(
+        index === 2 ? "green" : "yellow"
+      );
+
+    }
+
+  });
+
+}
+
+codeArrows.forEach(button => {
+
+  button.addEventListener("click", function () {
+
+    const position = Number(this.dataset.position);
+    const direction = this.dataset.direction;
+
+    if (direction === "up") {
+      codeValues[position]++;
+
+      if (codeValues[position] > 9) {
+        codeValues[position] = 0;
+      }
+    }
+
+    else {
+      codeValues[position]--;
+
+      if (codeValues[position] < 0) {
+        codeValues[position] = 9;
+      }
+    }
+
+    updateCalibrationCode();
+
+  });
+
+});
+
+updateCalibrationCode();
+    
   </script>
 
 </body>
