@@ -541,6 +541,23 @@
   background: #ffffff;
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
 }
+    .calibration-error {
+  display: none;
+  text-align: center;
+  margin-top: 32px;
+}
+
+.calibration-error-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.calibration-error-message {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
   </style>
 </head>
 
@@ -938,6 +955,13 @@
     </div>
   </div>
 
+  <div id="calibration-error" class="calibration-error">
+    <div class="calibration-error-title">ERROR EN CALIBRACIÓN</div>
+    <div class="calibration-error-message">
+      No se ha podido completar la calibración.
+    </div>
+  </div>
+
 </section>
 
   </main>
@@ -1028,6 +1052,13 @@ if (quest === "01" && calibrationBar) {
     function advanceCalibration() {
 
         if (step >= progressSteps.length) {
+           setTimeout(() => {
+                const errorMessage = document.getElementById("calibration-error");
+
+                if (errorMessage) {
+                    errorMessage.style.display = "block";
+                }
+            }, 3000);
             return;
         }
 
