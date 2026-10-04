@@ -558,6 +558,206 @@
   font-size: 0.9rem;
   opacity: 0.7;
 }
+
+#calibration-continue {
+  display: block;
+  margin: 28px auto 0;
+}
+
+/* PANEL DE CONTROL — CALIBRACIÓN */
+
+#calibration-panel {
+  padding-top: 70px;
+}
+
+.control-panel {
+  width: min(820px, 90%);
+  margin: 0 auto;
+  border: 1px solid var(--line);
+  background: rgba(10, 14, 22, 0.92);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.45);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--text-soft);
+}
+
+.panel-status {
+  color: var(--muted);
+}
+
+.panel-body {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 18px;
+}
+
+.control-block {
+  min-height: 86px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.control-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.control-value {
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+}
+
+.status-light {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  vertical-align: middle;
+  background: var(--muted);
+  box-shadow: 0 0 7px rgba(120, 130, 145, 0.35);
+}
+
+.indicator-bar {
+  display: flex;
+  gap: 6px;
+  margin-top: 18px;
+}
+
+.indicator-bar span {
+  display: block;
+  width: 34px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.signal-indicator {
+  display: flex;
+  gap: 5px;
+  margin-top: 18px;
+}
+
+.signal-indicator span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.calibration-module {
+  grid-column: 1 / -1;
+  padding: 24px;
+  border: 1px solid var(--line-bright);
+  background: rgba(255, 255, 255, 0.02);
+  text-align: center;
+}
+
+.module-title {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--text-soft);
+}
+
+.code-slots {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 24px 0 18px;
+}
+
+.code-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 62px;
+  border: 1px solid var(--line-bright);
+  background: rgba(0, 0, 0, 0.25);
+  font-size: 1.5rem;
+  color: var(--muted);
+}
+
+.module-status {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.module-warning {
+  margin-top: 8px;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--text-soft);
+}
+
+.decorative-control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.control-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.control-buttons span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 28px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.panel-message {
+  width: min(700px, 86%);
+  margin: 30px auto 0;
+  text-align: center;
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+#recover-code {
+  display: block;
+  margin: 22px auto 0;
+}
+
+@media (max-width: 650px) {
+  .panel-body {
+    grid-template-columns: 1fr;
+  }
+
+  .calibration-module {
+    grid-column: auto;
+  }
+
+  .control-panel {
+    width: 92%;
+  }
+
+  .code-slot {
+    width: 52px;
+    height: 56px;
+  }
+}
+    
   </style>
 </head>
 
@@ -961,6 +1161,103 @@
       No se ha podido completar la calibración.
     </div>
   </div>
+
+        <button id="calibration-continue" class="system-button">
+  CONTINUAR
+</button>
+        
+</section>
+
+    <section id="calibration-panel" class="screen">
+
+  <div class="control-panel">
+
+    <div class="panel-header">
+      <span>QUESTOBER // SYSTEM CONTROL</span>
+      <span class="panel-status">STANDBY</span>
+    </div>
+
+    <div class="panel-body">
+
+      <div class="control-block power-block">
+        <div class="control-label">POWER</div>
+        <div class="status-light standby"></div>
+        <div class="control-value">STANDBY</div>
+      </div>
+
+      <div class="control-block">
+        <div class="control-label">SYSTEM</div>
+        <div class="control-value">WAITING</div>
+      </div>
+
+      <div class="control-block">
+        <div class="control-label">CORE</div>
+        <div class="indicator-bar">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <div class="control-block">
+        <div class="control-label">SIGNAL</div>
+        <div class="signal-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <div class="calibration-module">
+
+        <div class="module-title">
+          CÓDIGO DE CALIBRACIÓN
+        </div>
+
+        <div class="code-slots">
+          <div class="code-slot">—</div>
+          <div class="code-slot">—</div>
+          <div class="code-slot">—</div>
+        </div>
+
+        <div class="module-status">
+          ESTADO: INCOMPLETO
+        </div>
+
+        <div class="module-warning">
+          3 ELEMENTOS AUSENTES
+        </div>
+
+      </div>
+
+      <div class="control-block">
+        <div class="control-label">ACCESS</div>
+        <div class="control-value">RESTRICTED</div>
+      </div>
+
+      <div class="control-block decorative-control">
+        <div class="control-label">CONTROL</div>
+        <div class="control-buttons">
+          <span>◀</span>
+          <span>▶</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="panel-message">
+    El sistema ha detectado que el código de calibración está incompleto.
+  </div>
+
+  <button id="recover-code" class="system-button">
+    RECUPERAR CÓDIGO
+  </button>
 
 </section>
 
