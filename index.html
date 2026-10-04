@@ -739,6 +739,28 @@
   margin: 22px auto 0;
 }
 
+    .module-status-screen {
+  width: min(300px, 80%);
+  margin: 0 auto;
+  padding: 9px 14px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.35);
+}
+
+.module-status {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.module-warning {
+  margin-top: 5px;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: var(--text-soft);
+}
+    
 @media (max-width: 650px) {
   .panel-body {
     grid-template-columns: 1fr;
@@ -1223,6 +1245,11 @@
           <div class="code-slot">—</div>
           <div class="code-slot">—</div>
         </div>
+
+        <div class="module-status-screen">
+  <div class="module-status">ESTADO: INCOMPLETO</div>
+  <div class="module-warning">3 ELEMENTOS AUSENTES</div>
+</div>
 
         <div class="module-status">
           ESTADO: INCOMPLETO
