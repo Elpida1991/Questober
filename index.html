@@ -522,6 +522,25 @@
         gap: 2px;
       }
     }
+    .progress-container {
+  width: min(520px, 80%);
+  margin: 50px auto 0;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+}
   </style>
 </head>
 
@@ -985,6 +1004,47 @@ if (quest === "01") {
     document.getElementById("redButton").addEventListener("click", function () {
       showScreen("red");
     });
+ const calibrationBar = document.querySelector("#calibration .progress-fill");
+
+if (quest === "01" && calibrationBar) {
+
+    const progressSteps = [
+        { value: 8, duration: 350 },
+        { value: 17, duration: 700 },
+        { value: 24, duration: 280 },
+        { value: 39, duration: 900 },
+        { value: 46, duration: 400 },
+        { value: 58, duration: 1100 },
+        { value: 64, duration: 500 },
+        { value: 72, duration: 850 },
+        { value: 77, duration: 450 },
+        { value: 82, duration: 1000 },
+        { value: 85, duration: 650 },
+        { value: 87, duration: 900 }
+    ];
+
+    let step = 0;
+
+    function advanceCalibration() {
+
+        if (step >= progressSteps.length) {
+            return;
+        }
+
+        const current = progressSteps[step];
+
+        calibrationBar.style.transition =
+            `width ${current.duration}ms ease-out`;
+
+        calibrationBar.style.width = current.value + "%";
+
+        step++;
+
+        setTimeout(advanceCalibration, current.duration + 120);
+    }
+
+    setTimeout(advanceCalibration, 500);
+}
   </script>
 
 </body>
