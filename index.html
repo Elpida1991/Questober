@@ -1235,6 +1235,141 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
   right: 24px;
   bottom: 22px;
 }
+
+/* ---------- M02 · PISTA ---------- */
+
+.m02-hint-screen {
+  text-align: center;
+}
+
+.m02-hint-title {
+  margin-top: 34px;
+
+  font-size: 17px;
+  letter-spacing: 0.16em;
+  color: var(--text-soft);
+}
+
+.m02-pad-module {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin: 34px auto 30px;
+}
+
+.m02-pad-header {
+  display: grid;
+  grid-template-columns: 34px repeat(3, 54px);
+
+  gap: 8px;
+
+  margin-bottom: 8px;
+}
+
+.m02-pad-header span {
+  height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--muted);
+
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.m02-pad-grid {
+  display: grid;
+
+  grid-template-columns: 34px repeat(3, 54px);
+  grid-template-rows: repeat(5, 54px);
+
+  gap: 8px;
+}
+
+.m02-pad-row-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--muted);
+
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.m02-pad {
+  position: relative;
+
+  border: 1px solid #3a4652;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.025),
+      rgba(0,0,0,.12)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.025),
+    0 4px 10px rgba(0,0,0,.18);
+
+  cursor: pointer;
+
+  transition:
+    background .12s ease,
+    border-color .12s ease,
+    box-shadow .12s ease,
+    transform .08s ease;
+}
+
+.m02-pad::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 7px;
+
+  border: 1px solid rgba(255,255,255,.025);
+
+  pointer-events: none;
+}
+
+.m02-pad:hover {
+  border-color: #596875;
+}
+
+.m02-pad:active {
+  transform: scale(.97);
+}
+
+.m02-pad.active {
+  border-color: #9bdcff;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(155,220,255,.95),
+      rgba(105,194,239,.65) 42%,
+      rgba(58,139,180,.35) 75%,
+      rgba(30,65,85,.25)
+    );
+
+  box-shadow:
+    0 0 8px rgba(155,220,255,.9),
+    0 0 20px rgba(105,194,239,.45),
+    inset 0 0 14px rgba(255,255,255,.22);
+}
+
+.m02-pad.active::before {
+  border-color: rgba(255,255,255,.22);
+}
+
+.m02-back-button {
+  margin-top: 8px;
+}
     
   </style>
 </head>
@@ -1914,6 +2049,89 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
   </button>
 
 </section>
+
+<!-- ========================================================= -->
+<!--  M02 · PISTA                                              -->
+<!-- ========================================================= -->
+
+<section id="m02-hint" class="screen m02-hint-screen">
+
+  <div class="screen-label">
+    QUEST 01 // MÓDULO 02
+  </div>
+
+  <div class="m02-hint-title">
+    MATRIZ DE COORDENADAS
+  </div>
+
+  <div class="m02-pad-module">
+
+    <div class="m02-pad-header">
+      <span></span>
+      <span>A</span>
+      <span>B</span>
+      <span>C</span>
+    </div>
+
+    <div class="m02-pad-grid">
+
+      <!-- FILA 1 -->
+
+      <div class="m02-pad-row-label">1</div>
+
+      <button class="m02-pad" data-coordinate="A1" type="button"></button>
+      <button class="m02-pad" data-coordinate="B1" type="button"></button>
+      <button class="m02-pad" data-coordinate="C1" type="button"></button>
+
+
+      <!-- FILA 2 -->
+
+      <div class="m02-pad-row-label">2</div>
+
+      <button class="m02-pad" data-coordinate="A2" type="button"></button>
+      <button class="m02-pad" data-coordinate="B2" type="button"></button>
+      <button class="m02-pad" data-coordinate="C2" type="button"></button>
+
+
+      <!-- FILA 3 -->
+
+      <div class="m02-pad-row-label">3</div>
+
+      <button class="m02-pad" data-coordinate="A3" type="button"></button>
+      <button class="m02-pad" data-coordinate="B3" type="button"></button>
+      <button class="m02-pad" data-coordinate="C3" type="button"></button>
+
+
+      <!-- FILA 4 -->
+
+      <div class="m02-pad-row-label">4</div>
+
+      <button class="m02-pad" data-coordinate="A4" type="button"></button>
+      <button class="m02-pad" data-coordinate="B4" type="button"></button>
+      <button class="m02-pad" data-coordinate="C4" type="button"></button>
+
+
+      <!-- FILA 5 -->
+
+      <div class="m02-pad-row-label">5</div>
+
+      <button class="m02-pad" data-coordinate="A5" type="button"></button>
+      <button class="m02-pad" data-coordinate="B5" type="button"></button>
+      <button class="m02-pad" data-coordinate="C5" type="button"></button>
+
+    </div>
+
+  </div>
+
+  <button
+    id="m02-hint-back"
+    class="system-button m02-back-button"
+    type="button"
+  >
+    VOLVER
+  </button>
+
+</section>
     
   </main>
 
@@ -2354,7 +2572,48 @@ if (m01NumberSubmit) {
   });
 
 }
-    
+
+/* -----------------------------------------------------------
+   M02 · PISTA
+----------------------------------------------------------- */
+
+const m02HintButton = document.getElementById("m02-hint-button");
+const m02HintBack = document.getElementById("m02-hint-back");
+const m02Pads = document.querySelectorAll(".m02-pad");
+
+
+if (m02HintButton) {
+
+  m02HintButton.addEventListener("click", function () {
+
+    showScreen("m02-hint");
+
+  });
+
+}
+
+
+if (m02HintBack) {
+
+  m02HintBack.addEventListener("click", function () {
+
+    showScreen("m02");
+
+  });
+
+}
+
+
+m02Pads.forEach(function (pad) {
+
+  pad.addEventListener("click", function () {
+
+    this.classList.toggle("active");
+
+  });
+
+});
+
   </script>
 
 </body>
