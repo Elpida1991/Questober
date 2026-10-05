@@ -1165,16 +1165,18 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 }
 
 .m02-coordinates {
-  display: grid;
-
-  grid-template-columns: repeat(6, auto);
-  justify-content: center;
-
-  gap: 10px 12px;
-
-  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 
   margin: 38px auto 42px;
+}
+
+.m02-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
 }
 
 .m02-coordinate {
@@ -1860,18 +1862,22 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 
   <div class="m02-coordinates">
 
-  <div class="m02-coordinate">C1</div>
-  <div class="m02-coordinate">A5</div>
-  <div class="m02-coordinate">B1</div>
-  <div class="m02-coordinate">C5</div>
-  <div class="m02-coordinate">A1</div>
-  <div class="m02-coordinate">C3</div>
+  <div class="m02-row">
+    <div class="m02-coordinate">C1</div>
+    <div class="m02-coordinate">A5</div>
+    <div class="m02-coordinate">B1</div>
+    <div class="m02-coordinate">C5</div>
+    <div class="m02-coordinate">A1</div>
+    <div class="m02-coordinate">C3</div>
+  </div>
 
-  <div class="m02-coordinate">B5</div>
-  <div class="m02-coordinate">A3</div>
-  <div class="m02-coordinate">C2</div>
-  <div class="m02-coordinate">B3</div>
-  <div class="m02-coordinate">C4</div>
+  <div class="m02-row">
+    <div class="m02-coordinate">B5</div>
+    <div class="m02-coordinate">A3</div>
+    <div class="m02-coordinate">C2</div>
+    <div class="m02-coordinate">B3</div>
+    <div class="m02-coordinate">C4</div>
+  </div>
 
 </div>
 
