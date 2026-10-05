@@ -976,6 +976,21 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
   box-shadow:
     0 0 6px rgba(230,184,74,.7),
     0 0 12px rgba(230,184,74,.25);
+  animation: calibrationPilotBlink 1.2s ease-in-out infinite;
+}
+
+@keyframes calibrationPilotBlink {
+  0%, 100% {
+    opacity: 1;
+    box-shadow:
+      0 0 6px rgba(230,184,74,.7),
+      0 0 12px rgba(230,184,74,.25);
+  }
+
+  50% {
+    opacity: .25;
+    box-shadow: none;
+  }
 }
 
 .code-indicator.green {
@@ -1631,7 +1646,7 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 
         <div class="module-status-screen">
   <div class="module-status">ESTADO: INCOMPLETO</div>
-  <div class="module-warning">3 ELEMENTOS AUSENTES</div>
+  <div class="module-warning" id="calibration-warning">3 ELEMENTOS AUSENTES</div>
 </div>
 
       </div>
@@ -1660,8 +1675,8 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
   </div>
 
   <button id="recover-code" class="system-button">
-    RECUPERAR CÓDIGO
-  </button>
+  CONTINUAR
+</button>
 
 </section>
 
@@ -1936,11 +1951,21 @@ updateCalibrationCode();
   function updateCalibrationProgress() {
 
   const indicators = document.querySelectorAll(".code-indicator");
+  const warning = document.getElementById("calibration-warning");
 
-  if (localStorage.getItem("questober_m01_complete") === "true") {
+  const m01Complete =
+    localStorage.getItem("questober_m01_complete") === "true";
+
+  if (m01Complete) {
+
     if (indicators[0]) {
       indicators[0].classList.add("yellow");
     }
+
+    if (warning) {
+      warning.textContent = "2 ELEMENTOS AUSENTES";
+    }
+
   }
 
 }
@@ -1954,8 +1979,7 @@ const recoverCodeButton = document.getElementById("recover-code");
 if (recoverCodeButton) {
 
   recoverCodeButton.addEventListener("click", function () {
-    showScreen("m01");
-
+    showScreen("m02");
     const letterInput = document.getElementById("m01-letter");
 
     if (letterInput) {
