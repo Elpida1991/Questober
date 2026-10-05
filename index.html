@@ -2091,22 +2091,6 @@ updateCalibrationCode();
 }
 
 
-  /* Texto de progreso */
-
-  const completedModules =
-    Number(m01Complete) +
-    Number(m02Complete) +
-    Number(m03Complete);
-
-  const missingModules = 3 - completedModules;
-
-  if (warning) {
-    warning.textContent =
-      missingModules + " ELEMENTOS AUSENTES";
-  }
-
-}
-
 /* -----------------------------------------------------------
    M01 · PRIMER PUZZLE
 ----------------------------------------------------------- */
