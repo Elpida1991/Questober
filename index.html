@@ -2097,16 +2097,32 @@ updateCalibrationCode();
 
 const recoverCodeButton = document.getElementById("recover-code");
 
+const recoverCodeButton = document.getElementById("recover-code");
+
 if (recoverCodeButton) {
 
   recoverCodeButton.addEventListener("click", function () {
-    showScreen("m02");
-    const letterInput = document.getElementById("m01-letter");
 
-    if (letterInput) {
-      letterInput.value = "";
-      setTimeout(() => letterInput.focus(), 100);
+    const m01Complete =
+      localStorage.getItem("questober_m01_complete") === "true";
+
+    if (!m01Complete) {
+
+      showScreen("m01");
+
+      const letterInput = document.getElementById("m01-letter");
+
+      if (letterInput) {
+        letterInput.value = "";
+        setTimeout(() => letterInput.focus(), 100);
+      }
+
+    } else {
+
+      showScreen("m02");
+
     }
+
   });
 
 }
