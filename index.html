@@ -1956,16 +1956,73 @@ updateCalibrationCode();
   const m01Complete =
     localStorage.getItem("questober_m01_complete") === "true";
 
-  if (m01Complete) {
+  const m02Complete =
+    localStorage.getItem("questober_m02_complete") === "true";
+
+  const m03Complete =
+    localStorage.getItem("questober_m03_complete") === "true";
+
+
+  /* Limpiar estados visuales antes de reconstruir el progreso */
+
+  indicators.forEach(indicator => {
+    indicator.classList.remove("yellow", "green");
+  });
+
+
+  /* M01 completado */
+
+  if (m01Complete && indicators[0]) {
+    indicators[0].classList.add("yellow");
+  }
+
+
+  /* M02 completado */
+
+  if (m02Complete) {
 
     if (indicators[0]) {
       indicators[0].classList.add("yellow");
     }
 
-    if (warning) {
-      warning.textContent = "2 ELEMENTOS AUSENTES";
+    if (indicators[1]) {
+      indicators[1].classList.add("yellow");
     }
 
+  }
+
+
+  /* M03 completado */
+
+  if (m03Complete) {
+
+    if (indicators[0]) {
+      indicators[0].classList.add("yellow");
+    }
+
+    if (indicators[1]) {
+      indicators[1].classList.add("yellow");
+    }
+
+    if (indicators[2]) {
+      indicators[2].classList.add("yellow");
+    }
+
+  }
+
+
+  /* Texto de progreso */
+
+  const completedModules =
+    Number(m01Complete) +
+    Number(m02Complete) +
+    Number(m03Complete);
+
+  const missingModules = 3 - completedModules;
+
+  if (warning) {
+    warning.textContent =
+      missingModules + " ELEMENTOS AUSENTES";
   }
 
 }
