@@ -1759,17 +1759,21 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
     const screens = document.querySelectorAll(".screen");
 
     function showScreen(id) {
-      screens.forEach(screen => {
-        screen.classList.remove("active");
-      });
+  screens.forEach(screen => {
+    screen.classList.remove("active");
+  });
 
-      const target = document.getElementById(id);
+  const target = document.getElementById(id);
 
-      if (target) {
-        target.classList.add("active");
-        window.scrollTo(0, 0);
-      }
-    }
+  if (target) {
+    target.classList.add("active");
+    window.scrollTo(0, 0);
+  }
+
+  if (id === "calibration-panel") {
+    updateCalibrationProgress();
+  }
+}
 const params = new URLSearchParams(window.location.search);
 const quest = params.get("q");
 
@@ -1929,6 +1933,18 @@ codeArrows.forEach(button => {
 
 updateCalibrationCode();
 
+  function updateCalibrationProgress() {
+
+  const indicators = document.querySelectorAll(".code-indicator");
+
+  if (localStorage.getItem("questober_m01_complete") === "true") {
+    if (indicators[0]) {
+      indicators[0].classList.add("yellow");
+    }
+  }
+
+}
+
 /* -----------------------------------------------------------
    M01 · PRIMER PUZZLE
 ----------------------------------------------------------- */
@@ -2005,11 +2021,9 @@ if (m01NumberSubmit) {
 
   m01NumberError.style.display = "none";
 
-  /*
-    M01 COMPLETADO.
-    El valor 2 queda reservado como primer
-    elemento del código de calibración.
-  */
+  localStorage.setItem("questober_m01_complete", "true");
+
+  showScreen("calibration-panel");
 
 } else {
 
