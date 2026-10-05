@@ -1151,6 +1151,80 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
   letter-spacing: 0.22em;
   color: var(--text);
 }
+
+    /* ---------- M02 ---------- */
+
+.m02-instruction {
+  margin-top: 42px;
+
+  text-align: center;
+
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+
+.m02-coordinates {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 12px;
+
+  max-width: 520px;
+
+  margin: 38px auto 42px;
+}
+
+.m02-coordinate {
+  min-width: 58px;
+  padding: 10px 12px;
+
+  border: 1px solid var(--line);
+  background: #0b0f14;
+
+  color: var(--text-soft);
+
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-align: center;
+}
+
+.m02-input-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 10px;
+}
+
+.m02-input {
+  width: 72px;
+  height: 44px;
+
+  border: 1px solid var(--line-bright);
+  background: #0b0f14;
+
+  color: var(--text);
+  font-family: inherit;
+  font-size: 18px;
+  text-align: center;
+
+  outline: none;
+}
+
+.m02-input:focus {
+  border-color: #697582;
+  box-shadow: 0 0 10px rgba(255,255,255,.05);
+}
+
+.m02-hint-button {
+  position: absolute;
+
+  right: 24px;
+  bottom: 22px;
+}
     
   </style>
 </head>
@@ -1765,6 +1839,64 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
     </button>
 
   </div>
+
+</section>
+
+<!-- ========================================================= -->
+<!--  M02 · MÓDULO 02                                         -->
+<!-- ========================================================= -->
+
+<section id="m02" class="screen">
+
+  <div class="screen-label">
+    QUEST 01 // MÓDULO 02
+  </div>
+
+  <div class="m02-instruction">
+    INTERPRETA LAS SIGUIENTES COORDENADAS
+  </div>
+
+  <div class="m02-coordinates">
+
+    <div class="m02-coordinate">C1</div>
+    <div class="m02-coordinate">A5</div>
+    <div class="m02-coordinate">B1</div>
+    <div class="m02-coordinate">C5</div>
+    <div class="m02-coordinate">A1</div>
+    <div class="m02-coordinate">C3</div>
+    <div class="m02-coordinate">B5</div>
+    <div class="m02-coordinate">A3</div>
+    <div class="m02-coordinate">C2</div>
+    <div class="m02-coordinate">B3</div>
+    <div class="m02-coordinate">C4</div>
+
+  </div>
+
+  <div class="m02-input-area">
+
+    <input
+      id="m02-number"
+      class="m02-input"
+      type="text"
+      inputmode="numeric"
+      maxlength="1"
+      autocomplete="off"
+      aria-label="Número"
+    >
+
+    <button id="m02-number-submit" class="system-button">
+      ENVIAR
+    </button>
+
+  </div>
+
+  <button
+    id="m02-hint-button"
+    class="system-button m02-hint-button"
+    type="button"
+  >
+    PISTA
+  </button>
 
 </section>
     
