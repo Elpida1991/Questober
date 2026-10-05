@@ -2022,6 +2022,10 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 
 </div>
 
+<div id="m02-number-error" class="m01-error">
+  RESPUESTA INCORRECTA
+</div>
+  
   <div class="m02-input-area">
 
     <input
@@ -2614,6 +2618,43 @@ m02Pads.forEach(function (pad) {
 
 });
 
+/* -----------------------------------------------------------
+   M02 · RESPUESTA
+----------------------------------------------------------- */
+
+const m02NumberSubmit = document.getElementById("m02-number-submit");
+const m02NumberInput = document.getElementById("m02-number");
+const m02NumberError = document.getElementById("m02-number-error");
+
+
+if (m02NumberSubmit) {
+
+  m02NumberSubmit.addEventListener("click", function () {
+
+    const answer = m02NumberInput.value.trim();
+
+    if (answer === "3") {
+
+      m02NumberError.style.display = "none";
+
+      localStorage.setItem("questober_m02_complete", "true");
+
+      showScreen("calibration-panel");
+
+    } else {
+
+      m02NumberError.style.display = "block";
+
+      m02NumberInput.value = "";
+
+      setTimeout(() => m02NumberInput.focus(), 100);
+
+    }
+
+  });
+
+}
+    
   </script>
 
 </body>
