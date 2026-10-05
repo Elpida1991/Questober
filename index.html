@@ -2643,15 +2643,21 @@ if (m02NumberSubmit) {
 
     } else {
 
-      m02NumberError.style.display = "block";
+  m02NumberError.style.display = "block";
 
-      m02NumberInput.value = "";
+  setTimeout(() => {
 
-      setTimeout(() => m02NumberInput.focus(), 100);
+    m02NumberError.style.display = "none";
 
-    }
+    m02NumberInput.value = "";
 
-  });
+    showScreen("m02");
+
+    setTimeout(() => {
+      m02NumberInput.focus();
+    }, 100);
+
+  }, 1400);
 
 }
     
