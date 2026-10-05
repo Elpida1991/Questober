@@ -1952,6 +1952,8 @@ updateCalibrationCode();
 
   const indicators = document.querySelectorAll(".code-indicator");
   const warning = document.getElementById("calibration-warning");
+  const panelMessage = document.querySelector(".panel-message");
+  const recoverButton = document.getElementById("recover-code");
 
   const m01Complete =
     localStorage.getItem("questober_m01_complete") === "true";
@@ -1963,23 +1965,75 @@ updateCalibrationCode();
     localStorage.getItem("questober_m03_complete") === "true";
 
 
-  /* Limpiar estados visuales antes de reconstruir el progreso */
+  /* Reiniciar pilotos */
 
   indicators.forEach(indicator => {
     indicator.classList.remove("yellow", "green");
   });
 
 
-  /* M01 completado */
+  /* Determinar estado actual */
 
-  if (m01Complete && indicators[0]) {
-    indicators[0].classList.add("yellow");
+  let completedModules = 0;
+
+  if (m01Complete) {
+    completedModules = 1;
+  }
+
+  if (m02Complete) {
+    completedModules = 2;
+  }
+
+  if (m03Complete) {
+    completedModules = 3;
   }
 
 
-  /* M02 completado */
+  /* Estado 0 — antes de los puzzles */
 
-  if (m02Complete) {
+  if (completedModules === 0) {
+
+    if (warning) {
+      warning.textContent = "3 ELEMENTOS AUSENTES";
+    }
+
+    if (panelMessage) {
+      panelMessage.style.display = "block";
+    }
+
+    if (recoverButton) {
+      recoverButton.textContent = "RECUPERAR CÓDIGO";
+    }
+
+  }
+
+
+  /* Estado 1 — después de M01 */
+
+  if (completedModules === 1) {
+
+    if (indicators[0]) {
+      indicators[0].classList.add("yellow");
+    }
+
+    if (warning) {
+      warning.textContent = "2 ELEMENTOS AUSENTES";
+    }
+
+    if (panelMessage) {
+      panelMessage.style.display = "none";
+    }
+
+    if (recoverButton) {
+      recoverButton.textContent = "CONTINUAR";
+    }
+
+  }
+
+
+  /* Estado 2 — después de M02 */
+
+  if (completedModules === 2) {
 
     if (indicators[0]) {
       indicators[0].classList.add("yellow");
@@ -1989,12 +2043,24 @@ updateCalibrationCode();
       indicators[1].classList.add("yellow");
     }
 
+    if (warning) {
+      warning.textContent = "1 ELEMENTO AUSENTE";
+    }
+
+    if (panelMessage) {
+      panelMessage.style.display = "none";
+    }
+
+    if (recoverButton) {
+      recoverButton.textContent = "CONTINUAR";
+    }
+
   }
 
 
-  /* M03 completado */
+  /* Estado 3 — después de M03 */
 
-  if (m03Complete) {
+  if (completedModules === 3) {
 
     if (indicators[0]) {
       indicators[0].classList.add("yellow");
@@ -2008,7 +2074,21 @@ updateCalibrationCode();
       indicators[2].classList.add("yellow");
     }
 
+    if (warning) {
+      warning.textContent = "0 ELEMENTOS AUSENTES";
+    }
+
+    if (panelMessage) {
+      panelMessage.style.display = "none";
+    }
+
+    if (recoverButton) {
+      recoverButton.textContent = "CONTINUAR";
+    }
+
   }
+
+}
 
 
   /* Texto de progreso */
