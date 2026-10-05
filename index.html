@@ -1371,6 +1371,259 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
   margin-top: 8px;
 }
     
+
+/* ---------- M03 · FORMAS Y COLORES ---------- */
+
+.m03-instruction {
+  margin-top: 34px;
+  text-align: center;
+  font-size: 17px;
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+
+.m03-matrix {
+  width: min(520px, 100%);
+  margin: 30px auto 22px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--line-bright);
+  background: #0a0e13;
+}
+
+.m03-matrix-cell {
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+
+.m03-matrix-cell:nth-child(3n) {
+  border-right: 0;
+}
+
+.m03-matrix-cell:nth-last-child(-n+3) {
+  border-bottom: 0;
+}
+
+.m03-question {
+  font-size: 72px;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.m03-composition {
+  position: relative;
+  width: 78%;
+  height: 78%;
+}
+
+.m03-shape {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.m03-shape.square {
+  width: 68%;
+  height: 68%;
+}
+
+.m03-shape.circle {
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+}
+
+.m03-shape.triangle {
+  width: 76%;
+  height: 76%;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+.m03-shape.outer.square {
+  width: 100%;
+  height: 100%;
+}
+
+.m03-shape.outer.circle {
+  width: 96%;
+  height: 96%;
+}
+
+.m03-shape.outer.triangle {
+  width: 100%;
+  height: 100%;
+}
+
+.m03-shape.middle {
+  width: 68%;
+  height: 68%;
+}
+
+.m03-shape.inner {
+  width: 40%;
+  height: 40%;
+}
+
+/* Ajuste de composición: triángulo exterior */
+
+.m03-composition.outer-triangle .m03-shape.middle {
+  top: 60%;
+}
+
+.m03-composition.outer-triangle .m03-shape.inner {
+  top: 61%;
+}
+
+/* Ajuste de composición: círculo exterior */
+
+.m03-composition.outer-circle .m03-shape.middle {
+  width: 70%;
+  height: 70%;
+}
+
+.m03-composition.outer-circle .m03-shape.inner {
+  width: 38%;
+  height: 38%;
+}
+
+/* Colores del acertijo original */
+
+.m03-red { background: #f20f18; }
+.m03-yellow { background: #fff500; }
+.m03-green { background: #00ef00; }
+.m03-blue { background: #28a9df; }
+
+.m03-options-label {
+  margin: 28px 0 16px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+.m03-options {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.m03-option {
+  min-width: 0;
+  padding: 8px 6px 10px;
+  border: 1px solid var(--line);
+  background: #0b0f14;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition:
+    border-color .12s ease,
+    box-shadow .12s ease,
+    transform .08s ease;
+}
+
+.m03-option:hover {
+  border-color: var(--line-bright);
+}
+
+.m03-option:active {
+  transform: scale(.98);
+}
+
+.m03-option.selected {
+  border-color: #9bdcff;
+  box-shadow:
+    0 0 8px rgba(155,220,255,.28),
+    inset 0 0 12px rgba(155,220,255,.06);
+}
+
+.m03-option-number {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.m03-option .m03-composition {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto;
+}
+
+.m03-option .m03-shape.middle {
+  width: 68%;
+  height: 68%;
+}
+
+.m03-option .m03-shape.inner {
+  width: 40%;
+  height: 40%;
+}
+
+.m03-answer-area {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.m03-error,
+.m03-lock {
+  display: none;
+  margin-top: 20px;
+  text-align: center;
+  color: var(--error);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.m03-lock strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.m03-lock-countdown {
+  color: var(--text-soft);
+  font-size: 15px;
+  letter-spacing: 0.1em;
+}
+
+.m03-disabled {
+  pointer-events: none;
+  opacity: .42;
+}
+
+@media (max-width: 620px) {
+  .m03-options {
+    grid-template-columns: repeat(5, minmax(46px, 1fr));
+    gap: 6px;
+  }
+
+  .m03-option {
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .m03-option .m03-composition {
+    width: 54px;
+    height: 54px;
+  }
+
+  .m03-matrix {
+    width: 100%;
+  }
+
+  .m03-question {
+    font-size: 56px;
+  }
+}
+
   </style>
 </head>
 
@@ -2136,7 +2389,213 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
   </button>
 
 </section>
-    
+
+
+<!-- ========================================================= -->
+<!--  M03 · FORMAS Y COLORES                                  -->
+<!-- ========================================================= -->
+
+<section id="m03" class="screen">
+
+  <div class="screen-label">
+    QUEST 01 // MÓDULO 03
+  </div>
+
+  <div class="m03-instruction">
+    IDENTIFICA LA COMPOSICIÓN QUE FALTA
+  </div>
+
+  <div class="m03-matrix">
+
+    <!-- Fila 1 -->
+    <div class="m03-matrix-cell">
+      <div class="m03-composition outer-square">
+        <div class="m03-shape outer square m03-red"></div>
+        <div class="m03-shape middle circle m03-yellow"></div>
+        <div class="m03-shape inner triangle m03-green"></div>
+      </div>
+    </div>
+
+    <div class="m03-matrix-cell">
+      <div class="m03-composition outer-triangle">
+        <div class="m03-shape outer triangle m03-blue"></div>
+        <div class="m03-shape middle square m03-red"></div>
+        <div class="m03-shape inner circle m03-yellow"></div>
+      </div>
+    </div>
+
+    <div class="m03-matrix-cell">
+      <div class="m03-composition outer-circle">
+        <div class="m03-shape outer circle m03-blue"></div>
+        <div class="m03-shape middle triangle m03-green"></div>
+        <div class="m03-shape inner square m03-yellow"></div>
+      </div>
+    </div>
+
+    <!-- Fila 2 -->
+    <div class="m03-matrix-cell">
+      <div class="m03-composition outer-triangle">
+        <div class="m03-shape outer triangle m03-green"></div>
+        <div class="m03-shape middle square m03-yellow"></div>
+        <div class="m03-shape inner circle m03-blue"></div>
+      </div>
+    </div>
+
+    <div class="m03-matrix-cell">
+      <div class="m03-composition outer-circle">
+        <div class="m03-shape outer circle m03-yellow"></div>
+        <div class="m03-shape middle triangle m03-green"></div>
+        <div class="m03-shape inner square m03-red"></div>
+      </div>
+    </div>
+
+    <div class="m03-matrix-cell">
+      <div class="m03-composition outer-square">
+        <div class="m03-shape outer square m03-red"></div>
+        <div class="m03-shape middle circle m03-yellow"></div>
+        <div class="m03-shape inner triangle m03-blue"></div>
+      </div>
+    </div>
+
+    <!-- Fila 3 -->
+    <div class="m03-matrix-cell">
+      <div class="m03-composition outer-circle">
+        <div class="m03-shape outer circle m03-yellow"></div>
+        <div class="m03-shape middle triangle m03-blue"></div>
+        <div class="m03-shape inner square m03-red"></div>
+      </div>
+    </div>
+
+    <div class="m03-matrix-cell">
+      <div class="m03-composition outer-square">
+        <div class="m03-shape outer square m03-yellow"></div>
+        <div class="m03-shape middle circle m03-blue"></div>
+        <div class="m03-shape inner triangle m03-green"></div>
+      </div>
+    </div>
+
+    <div class="m03-matrix-cell">
+      <div class="m03-question">?</div>
+    </div>
+
+  </div>
+
+  <div class="m03-options-label">
+    SELECCIONA UNA SOLUCIÓN
+  </div>
+
+  <div class="m03-options">
+
+    <button class="m03-option" data-answer="0" type="button">
+      <span class="m03-option-number">0</span>
+      <div class="m03-composition outer-square">
+        <div class="m03-shape outer square m03-blue"></div>
+        <div class="m03-shape middle circle m03-yellow"></div>
+        <div class="m03-shape inner triangle m03-green"></div>
+      </div>
+    </button>
+
+    <button class="m03-option" data-answer="1" type="button">
+      <span class="m03-option-number">1</span>
+      <div class="m03-composition outer-circle">
+        <div class="m03-shape outer circle m03-yellow"></div>
+        <div class="m03-shape middle triangle m03-green"></div>
+        <div class="m03-shape inner square m03-blue"></div>
+      </div>
+    </button>
+
+    <button class="m03-option" data-answer="2" type="button">
+      <span class="m03-option-number">2</span>
+      <div class="m03-composition outer-triangle">
+        <div class="m03-shape outer triangle m03-green"></div>
+        <div class="m03-shape middle square m03-yellow"></div>
+        <div class="m03-shape inner circle m03-red"></div>
+      </div>
+    </button>
+
+    <button class="m03-option" data-answer="3" type="button">
+      <span class="m03-option-number">3</span>
+      <div class="m03-composition outer-triangle">
+        <div class="m03-shape outer triangle m03-red"></div>
+        <div class="m03-shape middle square m03-yellow"></div>
+        <div class="m03-shape inner circle m03-green"></div>
+      </div>
+    </button>
+
+    <button class="m03-option" data-answer="4" type="button">
+      <span class="m03-option-number">4</span>
+      <div class="m03-composition outer-square">
+        <div class="m03-shape outer square m03-green"></div>
+        <div class="m03-shape middle circle m03-red"></div>
+        <div class="m03-shape inner triangle m03-yellow"></div>
+      </div>
+    </button>
+
+    <button class="m03-option" data-answer="5" type="button">
+      <span class="m03-option-number">5</span>
+      <div class="m03-composition outer-triangle">
+        <div class="m03-shape outer triangle m03-blue"></div>
+        <div class="m03-shape middle square m03-red"></div>
+        <div class="m03-shape inner circle m03-green"></div>
+      </div>
+    </button>
+
+    <button class="m03-option" data-answer="6" type="button">
+      <span class="m03-option-number">6</span>
+      <div class="m03-composition outer-square">
+        <div class="m03-shape outer square m03-red"></div>
+        <div class="m03-shape middle circle m03-blue"></div>
+        <div class="m03-shape inner triangle m03-green"></div>
+      </div>
+    </button>
+
+    <button class="m03-option" data-answer="7" type="button">
+      <span class="m03-option-number">7</span>
+      <div class="m03-composition outer-triangle">
+        <div class="m03-shape outer triangle m03-green"></div>
+        <div class="m03-shape middle square m03-red"></div>
+        <div class="m03-shape inner circle m03-yellow"></div>
+      </div>
+    </button>
+
+    <button class="m03-option" data-answer="8" type="button">
+      <span class="m03-option-number">8</span>
+      <div class="m03-composition outer-circle">
+        <div class="m03-shape outer circle m03-yellow"></div>
+        <div class="m03-shape middle triangle m03-red"></div>
+        <div class="m03-shape inner square m03-green"></div>
+      </div>
+    </button>
+
+    <button class="m03-option" data-answer="9" type="button">
+      <span class="m03-option-number">9</span>
+      <div class="m03-composition outer-triangle">
+        <div class="m03-shape outer triangle m03-green"></div>
+        <div class="m03-shape middle circle m03-yellow"></div>
+        <div class="m03-shape inner square m03-red"></div>
+      </div>
+    </button>
+
+  </div>
+
+  <div id="m03-error" class="m03-error">
+    RESPUESTA INCORRECTA
+  </div>
+
+  <div id="m03-lock" class="m03-lock">
+    <strong>SISTEMA BLOQUEADO</strong>
+    DEMASIADOS INTENTOS
+    <div id="m03-lock-countdown" class="m03-lock-countdown"></div>
+  </div>
+
+  <div class="m03-answer-area">
+    <button id="m03-submit" class="system-button" type="button">
+      CONFIRMAR
+    </button>
+  </div>
+
+</section>
+
   </main>
 
   <script>
@@ -2283,37 +2742,6 @@ function updateCalibrationCode() {
   });
 
 }
-
-codeArrows.forEach(button => {
-
-  button.addEventListener("click", function () {
-
-    const position = Number(this.dataset.position);
-    const direction = this.dataset.direction;
-
-    if (direction === "up") {
-
-      codeValues[position]++;
-
-      if (codeValues[position] > 9) {
-        codeValues[position] = 0;
-      }
-
-    } else {
-
-      codeValues[position]--;
-
-      if (codeValues[position] < 0) {
-        codeValues[position] = 9;
-      }
-
-    }
-
-    updateCalibrationCode();
-
-  });
-
-});
 
 updateCalibrationCode();
 
@@ -2473,6 +2901,12 @@ if (recoverCodeButton) {
     const m01Complete =
       localStorage.getItem("questober_m01_complete") === "true";
 
+    const m02Complete =
+      localStorage.getItem("questober_m02_complete") === "true";
+
+    const m03Complete =
+      localStorage.getItem("questober_m03_complete") === "true";
+
     if (!m01Complete) {
 
       showScreen("m01");
@@ -2484,9 +2918,19 @@ if (recoverCodeButton) {
         setTimeout(() => letterInput.focus(), 100);
       }
 
-    } else {
+    } else if (!m02Complete) {
 
       showScreen("m02");
+
+    } else if (!m03Complete) {
+
+      showScreen("m03");
+      initM03Lock();
+
+    } else {
+
+      showScreen("calibration-panel");
+      validateCalibrationCode();
 
     }
 
@@ -2663,6 +3107,344 @@ if (m02NumberSubmit) {
 });
 }
     
+
+/* -----------------------------------------------------------
+   M03 · FORMAS Y COLORES
+----------------------------------------------------------- */
+
+const M03_LOCK_MS = 3 * 60 * 1000;
+const m03Options = document.querySelectorAll(".m03-option");
+const m03Submit = document.getElementById("m03-submit");
+const m03Error = document.getElementById("m03-error");
+const m03Lock = document.getElementById("m03-lock");
+const m03LockCountdown = document.getElementById("m03-lock-countdown");
+
+let m03SelectedAnswer = null;
+let m03LockTimer = null;
+
+function initM03Lock() {
+
+  if (!m03Options.length) {
+    return;
+  }
+
+  const lockUntil =
+    Number(localStorage.getItem("questober_m03_lock_until") || "0");
+
+  if (lockUntil > Date.now()) {
+    startM03Lock(lockUntil);
+  } else {
+    localStorage.removeItem("questober_m03_lock_until");
+    stopM03Lock();
+  }
+
+}
+
+function setM03Disabled(disabled) {
+
+  m03Options.forEach(option => {
+    option.disabled = disabled;
+    option.classList.toggle("m03-disabled", disabled);
+  });
+
+  if (m03Submit) {
+    m03Submit.disabled = disabled;
+    m03Submit.classList.toggle("m03-disabled", disabled);
+  }
+
+}
+
+function stopM03Lock() {
+
+  if (m03LockTimer) {
+    clearInterval(m03LockTimer);
+    m03LockTimer = null;
+  }
+
+  if (m03Lock) {
+    m03Lock.style.display = "none";
+  }
+
+  if (m03Error) {
+    m03Error.style.display = "none";
+  }
+
+  setM03Disabled(false);
+
+}
+
+function startM03Lock(lockUntil) {
+
+  setM03Disabled(true);
+
+  if (m03Lock) {
+    m03Lock.style.display = "block";
+  }
+
+  function updateLockDisplay() {
+
+    const remaining = Math.max(0, lockUntil - Date.now());
+
+    if (remaining <= 0) {
+      localStorage.removeItem("questober_m03_lock_until");
+      stopM03Lock();
+      return;
+    }
+
+    const totalSeconds = Math.ceil(remaining / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    if (m03LockCountdown) {
+      m03LockCountdown.textContent =
+        `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    }
+
+  }
+
+  updateLockDisplay();
+
+  if (m03LockTimer) {
+    clearInterval(m03LockTimer);
+  }
+
+  m03LockTimer = setInterval(updateLockDisplay, 1000);
+
+}
+
+m03Options.forEach(option => {
+
+  option.addEventListener("click", function () {
+
+    if (Number(localStorage.getItem("questober_m03_lock_until") || "0") > Date.now()) {
+      return;
+    }
+
+    m03Options.forEach(item => item.classList.remove("selected"));
+
+    this.classList.add("selected");
+
+    m03SelectedAnswer = this.dataset.answer;
+
+  });
+
+});
+
+if (m03Submit) {
+
+  m03Submit.addEventListener("click", function () {
+
+    const lockUntil =
+      Number(localStorage.getItem("questober_m03_lock_until") || "0");
+
+    if (lockUntil > Date.now()) {
+      startM03Lock(lockUntil);
+      return;
+    }
+
+    if (m03SelectedAnswer === null) {
+      return;
+    }
+
+    if (m03SelectedAnswer === "7") {
+
+      if (m03Error) {
+        m03Error.style.display = "none";
+      }
+
+      localStorage.setItem("questober_m03_complete", "true");
+
+      showScreen("calibration-panel");
+
+      return;
+    }
+
+    if (m03Error) {
+      m03Error.style.display = "block";
+    }
+
+    const newLockUntil = Date.now() + M03_LOCK_MS;
+
+    localStorage.setItem(
+      "questober_m03_lock_until",
+      String(newLockUntil)
+    );
+
+    startM03Lock(newLockUntil);
+
+  });
+
+}
+
+initM03Lock();
+
+/* -----------------------------------------------------------
+   CALIBRACIÓN · VALIDACIÓN FINAL
+----------------------------------------------------------- */
+
+const CALIBRATION_CODE = [2, 3, 7];
+const calibrationActivation = document.querySelector(".activation-switch");
+
+function saveCalibrationCode() {
+
+  localStorage.setItem(
+    "questober_calibration_code",
+    JSON.stringify(codeValues)
+  );
+
+}
+
+function loadCalibrationCode() {
+
+  const saved =
+    localStorage.getItem("questober_calibration_code");
+
+  if (!saved) {
+    return;
+  }
+
+  try {
+
+    const parsed = JSON.parse(saved);
+
+    if (
+      Array.isArray(parsed) &&
+      parsed.length === 3 &&
+      parsed.every(value => Number.isInteger(value) && value >= 0 && value <= 9)
+    ) {
+
+      parsed.forEach((value, index) => {
+        codeValues[index] = value;
+      });
+
+    }
+
+  } catch (error) {
+
+    localStorage.removeItem("questober_calibration_code");
+
+  }
+
+}
+
+function validateCalibrationCode() {
+
+  if (!calibrationActivation) {
+    return;
+  }
+
+  const indicators =
+    document.querySelectorAll(".code-indicator");
+
+  const correct =
+    codeValues.every((value, index) => value === CALIBRATION_CODE[index]);
+
+  indicators.forEach((indicator, index) => {
+
+    indicator.classList.remove("yellow", "green");
+
+    if (correct) {
+      indicator.classList.add("green");
+    } else if (
+      localStorage.getItem("questober_m01_complete") === "true" &&
+      index === 0
+    ) {
+      indicator.classList.add("yellow");
+    }
+
+  });
+
+  if (
+    localStorage.getItem("questober_m02_complete") === "true" &&
+    !correct
+  ) {
+    indicators[0]?.classList.add("yellow");
+    indicators[1]?.classList.add("yellow");
+  }
+
+  if (
+    localStorage.getItem("questober_m03_complete") === "true" &&
+    !correct
+  ) {
+    indicators[0]?.classList.add("yellow");
+    indicators[1]?.classList.add("yellow");
+    indicators[2]?.classList.add("yellow");
+  }
+
+  if (correct) {
+
+    calibrationActivation.classList.remove("locked");
+    calibrationActivation.classList.add("ready");
+
+  } else {
+
+    calibrationActivation.classList.add("locked");
+    calibrationActivation.classList.remove("ready");
+
+  }
+
+}
+
+loadCalibrationCode();
+updateCalibrationCode();
+validateCalibrationCode();
+
+codeArrows.forEach(button => {
+
+  button.addEventListener("click", function () {
+
+    const position = Number(this.dataset.position);
+    const direction = this.dataset.direction;
+
+    if (direction === "up") {
+
+      codeValues[position]++;
+
+      if (codeValues[position] > 9) {
+        codeValues[position] = 0;
+      }
+
+    } else {
+
+      codeValues[position]--;
+
+      if (codeValues[position] < 0) {
+        codeValues[position] = 9;
+      }
+
+    }
+
+    saveCalibrationCode();
+    updateCalibrationCode();
+    validateCalibrationCode();
+
+  });
+
+});
+
+if (calibrationActivation) {
+
+  calibrationActivation.addEventListener("click", function () {
+
+    if (this.classList.contains("locked")) {
+      return;
+    }
+
+    this.classList.add("activated");
+
+    const handle = this.querySelector(".switch-handle");
+
+    if (handle) {
+      handle.style.bottom = "26px";
+      handle.style.background = "#2cc779";
+      handle.style.boxShadow =
+        "0 0 10px rgba(44,199,121,.7)";
+    }
+
+  });
+
+}
+
   </script>
 
 </body>
