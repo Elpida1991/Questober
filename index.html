@@ -607,12 +607,17 @@
   font-size: 12px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  animation: readyStatusPulse 2.8s ease-in-out infinite;
+  transform-origin: center;
+  animation: readyStatusPulse 3.2s ease-in-out infinite;
 }
 
 @keyframes readyStatusPulse {
-  0%, 100% { opacity: 0.55; }
-  50% { opacity: 1; }
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
 }
 
 .control-panel {
@@ -1365,6 +1370,7 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
   align-items: center;
 
   margin: 34px auto 30px;
+  transform: translateX(-22px);
 }
 
 .m02-pad-header {
