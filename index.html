@@ -570,6 +570,51 @@
   padding-top: 70px;
 }
 
+/* ---------- MISSION READY ---------- */
+
+.mission-ready-screen {
+  min-height: 430px;
+  display: none;
+  flex-direction: column;
+}
+
+.mission-ready-screen.active {
+  display: flex;
+}
+
+.mission-ready-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 50px 20px 60px;
+}
+
+.mission-ready-title {
+  color: var(--text);
+  font-size: clamp(24px, 4vw, 34px);
+  line-height: 1.45;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mission-ready-status {
+  margin-top: 34px;
+  color: var(--text-soft);
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  animation: readyStatusPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes readyStatusPulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
 .control-panel {
   position: relative;
   width: min(820px, 90%);
@@ -648,7 +693,7 @@
   letter-spacing: 0.08em;
   color: var(--text-soft);
 }
-.control-block:nth-last-child(2) .control-value {
+.control-block:nth-last-child(2) .control-value:not(.access-granted) {
 color: #e05252;
 text-shadow: 0 0 8px rgba(224, 82, 82, 0.28);
 animation: restrictedPulse 2.4s ease-in-out infinite;
@@ -661,6 +706,70 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 
   50% {
     opacity: 1;
+  }
+}
+
+.status-light.on {
+  background: #2cc779;
+  box-shadow:
+    0 0 6px rgba(44, 199, 121, 0.7),
+    0 0 14px rgba(44, 199, 121, 0.3);
+  animation: none;
+  opacity: 1;
+}
+
+.control-value.access-granted {
+  color: #2cc779;
+  text-shadow: 0 0 8px rgba(44, 199, 121, 0.35);
+  animation: none;
+}
+
+.control-value.system-active {
+  color: var(--text-soft);
+  text-shadow: none;
+  animation: none;
+}
+
+#power-value {
+  color: var(--text-soft);
+}
+
+.panel-status.active {
+  color: var(--text-soft);
+  text-shadow: none;
+}
+
+.indicator-bar.active span {
+  background: #4aa8ff;
+  box-shadow:
+    0 0 7px rgba(74, 168, 255, 0.7),
+    0 0 14px rgba(74, 168, 255, 0.28);
+  opacity: 0;
+  animation: corePowerOn 0.45s ease-out forwards;
+}
+
+.indicator-bar.active span:nth-child(1) { animation-delay: 0s; }
+.indicator-bar.active span:nth-child(2) { animation-delay: 0.22s; }
+.indicator-bar.active span:nth-child(3) { animation-delay: 0.44s; }
+.indicator-bar.active span:nth-child(4) { animation-delay: 0.66s; }
+.indicator-bar.active span:nth-child(5) { animation-delay: 0.88s; }
+
+@keyframes corePowerOn {
+  0% {
+    opacity: 0.15;
+    box-shadow: 0 0 0 rgba(74, 168, 255, 0);
+  }
+  55% {
+    opacity: 1;
+    box-shadow:
+      0 0 10px rgba(74, 168, 255, 0.9),
+      0 0 20px rgba(74, 168, 255, 0.38);
+  }
+  100% {
+    opacity: 1;
+    box-shadow:
+      0 0 7px rgba(74, 168, 255, 0.7),
+      0 0 14px rgba(74, 168, 255, 0.28);
   }
 }
 
@@ -1388,7 +1497,7 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   border: 1px solid var(--line-bright);
-  background: #0a0e13;
+  background: #080c11;
 }
 
 .m03-matrix-cell {
@@ -1400,106 +1509,78 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   position: relative;
+  overflow: hidden;
 }
 
-.m03-matrix-cell:nth-child(3n) {
-  border-right: 0;
+.m03-matrix-cell:nth-child(3n) { border-right: 0; }
+.m03-matrix-cell:nth-last-child(-n+3) { border-bottom: 0; }
+
+.m03-missing-cell {
+  animation: m03MissingCellPulse 3.2s ease-in-out infinite;
 }
 
-.m03-matrix-cell:nth-last-child(-n+3) {
-  border-bottom: 0;
+@keyframes m03MissingCellPulse {
+  0%, 100% {
+    background: rgba(155,220,255,.015);
+    box-shadow: inset 0 0 0 1px rgba(155,220,255,.10), inset 0 0 12px rgba(155,220,255,.015);
+  }
+  50% {
+    background: rgba(155,220,255,.055);
+    box-shadow: inset 0 0 0 2px rgba(155,220,255,.72), inset 0 0 28px rgba(155,220,255,.13);
+  }
 }
 
-.m03-question {
-  font-size: 72px;
-  line-height: 1;
-  font-weight: 600;
-  color: var(--text);
-}
-
+/*
+   M03 usa SVG para la geometría: cada combinación tiene una plantilla
+   específica y un margen de seguridad visible entre todos los trazos.
+   Así evitamos que los contornos se toquen o se atraviesen.
+*/
 .m03-composition {
   position: relative;
-  width: 78%;
-  height: 78%;
+  width: 84%;
+  height: 84%;
+  isolation: isolate;
 }
 
-.m03-shape {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.m03-shape.square {
-  width: 68%;
-  height: 68%;
-}
-
-.m03-shape.circle {
-  width: 70%;
-  height: 70%;
-  border-radius: 50%;
-}
-
-.m03-shape.triangle {
-  width: 76%;
-  height: 76%;
-  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-}
-
-.m03-shape.outer.square {
+.m03-svg {
+  display: block;
   width: 100%;
   height: 100%;
+  overflow: visible;
 }
 
-.m03-shape.outer.circle {
-  width: 96%;
-  height: 96%;
+.m03-svg-shape {
+  fill: none;
+  stroke-width: 2.05;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  opacity: .86;
 }
 
-.m03-shape.outer.triangle {
-  width: 100%;
-  height: 100%;
+.m03-svg-shape.m03-red {
+  color: #ff3b57;
+  stroke: currentColor;
+  filter: drop-shadow(0 0 3px rgba(255,59,87,.68)) drop-shadow(0 0 7px rgba(255,59,87,.24));
 }
 
-.m03-shape.middle {
-  width: 68%;
-  height: 68%;
+.m03-svg-shape.m03-yellow {
+  color: #ffe066;
+  stroke: currentColor;
+  filter: drop-shadow(0 0 3px rgba(255,224,102,.64)) drop-shadow(0 0 7px rgba(255,224,102,.22));
 }
 
-.m03-shape.inner {
-  width: 40%;
-  height: 40%;
+.m03-svg-shape.m03-green {
+  color: #32e07e;
+  stroke: currentColor;
+  filter: drop-shadow(0 0 3px rgba(50,224,126,.64)) drop-shadow(0 0 7px rgba(50,224,126,.22));
 }
 
-/* Ajuste de composición: triángulo exterior */
-
-.m03-composition.outer-triangle .m03-shape.middle {
-  top: 60%;
+.m03-svg-shape.m03-blue {
+  color: #3aa0ff;
+  stroke: currentColor;
+  filter: drop-shadow(0 0 3px rgba(58,160,255,.64)) drop-shadow(0 0 7px rgba(58,160,255,.22));
 }
-
-.m03-composition.outer-triangle .m03-shape.inner {
-  top: 61%;
-}
-
-/* Ajuste de composición: círculo exterior */
-
-.m03-composition.outer-circle .m03-shape.middle {
-  width: 70%;
-  height: 70%;
-}
-
-.m03-composition.outer-circle .m03-shape.inner {
-  width: 38%;
-  height: 38%;
-}
-
-/* Colores del acertijo original */
-
-.m03-red { background: #f20f18; }
-.m03-yellow { background: #fff500; }
-.m03-green { background: #00ef00; }
-.m03-blue { background: #28a9df; }
 
 .m03-options-label {
   margin: 28px 0 16px;
@@ -1517,35 +1598,99 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 
 .m03-option {
   min-width: 0;
+  min-height: 108px;
   padding: 8px 6px 10px;
   border: 1px solid var(--line);
   background: #0b0f14;
   color: var(--text-soft);
   cursor: pointer;
-  transition:
-    border-color .12s ease,
-    box-shadow .12s ease,
-    transform .08s ease;
+  position: relative;
+  overflow: visible;
+  transition: border-color .12s ease, box-shadow .12s ease, transform .08s ease;
 }
 
-.m03-option:hover {
-  border-color: var(--line-bright);
-}
-
-.m03-option:active {
-  transform: scale(.98);
-}
+.m03-option:hover { border-color: var(--line-bright); }
+.m03-option:active { transform: scale(.98); }
 
 .m03-option.selected {
   border-color: #9bdcff;
-  box-shadow:
-    0 0 8px rgba(155,220,255,.28),
-    inset 0 0 12px rgba(155,220,255,.06);
+  box-shadow: 0 0 8px rgba(155,220,255,.28), inset 0 0 12px rgba(155,220,255,.06);
+}
+
+/* El bloqueo afecta a la CASILLA completa, no a ninguna figura interior. */
+.m03-option.m03-lock-blink {
+  animation: m03OptionLockBlink 1.05s ease-in-out infinite;
+}
+
+.m03-option.m03-lock-blink::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 1px solid rgba(155,220,255,.42);
+  pointer-events: none;
+  animation: m03OptionLockFrame 1.05s ease-in-out infinite;
+}
+
+@keyframes m03OptionLockBlink {
+  0%, 100% {
+    border-color: rgba(155,220,255,.35);
+    background: #0b0f14;
+    box-shadow: 0 0 4px rgba(155,220,255,.08);
+  }
+  50% {
+    border-color: #dff5ff;
+    background: #121b25;
+    box-shadow: 0 0 20px rgba(155,220,255,.48), inset 0 0 18px rgba(155,220,255,.10);
+  }
+}
+
+@keyframes m03OptionLockFrame {
+  0%, 100% {
+    opacity: .18;
+    box-shadow: 0 0 4px rgba(155,220,255,.04);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 22px rgba(155,220,255,.42);
+  }
+}
+
+/* Durante el bloqueo, las figuras interiores permanecen estáticas y discretas.
+   La única animación pertenece a la casilla completa. */
+.m03-option.m03-lock-blink .m03-composition {
+  filter: none !important;
+  opacity: .58;
+}
+
+.m03-option.m03-lock-blink .m03-svg-shape {
+  filter: none !important;
+}
+
+.m03-warning {
+  margin: 18px auto 0;
+  width: min(520px, 100%);
+  padding: 10px 14px;
+  border: 1px solid rgba(155,220,255,.20);
+  background: rgba(8,12,17,.72);
+  text-align: center;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.55;
+  letter-spacing: .08em;
+}
+
+.m03-warning strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--text-soft);
+  font-size: 10px;
+  letter-spacing: .14em;
 }
 
 .m03-option-number {
   display: block;
   margin-bottom: 7px;
+  text-align: center;
   font-size: 11px;
   letter-spacing: 0.12em;
 }
@@ -1554,16 +1699,6 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
   width: 72px;
   height: 72px;
   margin: 0 auto;
-}
-
-.m03-option .m03-shape.middle {
-  width: 68%;
-  height: 68%;
-}
-
-.m03-option .m03-shape.inner {
-  width: 40%;
-  height: 40%;
 }
 
 .m03-answer-area {
@@ -1588,7 +1723,12 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
   font-size: 12px;
 }
 
+.m03-lock-message {
+  display: block;
+}
+
 .m03-lock-countdown {
+  margin-top: 9px;
   color: var(--text-soft);
   font-size: 15px;
   letter-spacing: 0.1em;
@@ -1604,27 +1744,11 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
     grid-template-columns: repeat(5, minmax(46px, 1fr));
     gap: 6px;
   }
-
-  .m03-option {
-    padding-left: 3px;
-    padding-right: 3px;
-  }
-
-  .m03-option .m03-composition {
-    width: 54px;
-    height: 54px;
-  }
-
-  .m03-matrix {
-    width: 100%;
-  }
-
-  .m03-question {
-    font-size: 56px;
-  }
+  .m03-option { padding-left: 3px; padding-right: 3px; min-height: 86px; }
+  .m03-option .m03-composition { width: 54px; height: 54px; margin: 0 auto; }
+  .m03-matrix { width: 100%; }
 }
-
-  </style>
+</style>
 </head>
 
 <body>
@@ -2040,25 +2164,25 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 
     <div class="panel-header">
       <span>QUESTOBER // SYSTEM CONTROL</span>
-      <span class="panel-status">STANDBY</span>
+      <span id="panel-system-status" class="panel-status">STANDBY</span>
     </div>
 
     <div class="panel-body">
 
       <div class="control-block power-block">
         <div class="control-label">POWER</div>
-        <div class="status-light standby"></div>
-        <div class="control-value">STANDBY</div>
+        <div id="power-light" class="status-light standby"></div>
+        <div id="power-value" class="control-value">STANDBY</div>
       </div>
 
       <div class="control-block">
         <div class="control-label">SISTEMA</div>
-        <div class="control-value">ESPERA</div>
+        <div id="system-value" class="control-value">ESPERA</div>
       </div>
 
       <div class="control-block">
         <div class="control-label">NÚCLEO</div>
-        <div class="indicator-bar">
+        <div id="core-indicator" class="indicator-bar">
           <span></span>
           <span></span>
           <span></span>
@@ -2117,7 +2241,7 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 </div>
 
         <div class="module-status-screen">
-  <div class="module-status">ESTADO: INCOMPLETO</div>
+  <div id="calibration-status" class="module-status">ESTADO: INCOMPLETO</div>
   <div class="module-warning" id="calibration-warning">3 ELEMENTOS AUSENTES</div>
 </div>
 
@@ -2125,7 +2249,7 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 
       <div class="control-block">
         <div class="control-label">ACCESO</div>
-        <div class="control-value">RESTRINGIDO</div>
+        <div id="access-value" class="control-value">RESTRINGIDO</div>
       </div>
 
       <div class="control-block activation-block">
@@ -2149,6 +2273,26 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
   <button id="recover-code" class="system-button">
   CONTINUAR
 </button>
+
+</section>
+
+<section id="mission-ready" class="screen mission-ready-screen">
+
+  <div class="screen-label">
+    QUESTOBER // SYSTEM STATUS
+  </div>
+
+  <div class="mission-ready-content">
+    <div class="mission-ready-title">
+      EL SISTEMA ESTÁ LISTO
+      <br>
+      PARA RECIBIR MISIONES
+    </div>
+
+    <div class="mission-ready-status">
+      EN ESPERA
+    </div>
+  </div>
 
 </section>
 
@@ -2474,9 +2618,7 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
       </div>
     </div>
 
-    <div class="m03-matrix-cell">
-      <div class="m03-question">?</div>
-    </div>
+    <div class="m03-matrix-cell m03-missing-cell" aria-label="Composición ausente"></div>
 
   </div>
 
@@ -2506,10 +2648,10 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 
     <button class="m03-option" data-answer="2" type="button">
       <span class="m03-option-number">2</span>
-      <div class="m03-composition outer-triangle">
-        <div class="m03-shape outer triangle m03-green"></div>
-        <div class="m03-shape middle square m03-yellow"></div>
-        <div class="m03-shape inner circle m03-red"></div>
+      <div class="m03-composition outer-square">
+        <div class="m03-shape outer square m03-green"></div>
+        <div class="m03-shape middle circle m03-red"></div>
+        <div class="m03-shape inner triangle m03-yellow"></div>
       </div>
     </button>
 
@@ -2524,19 +2666,19 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 
     <button class="m03-option" data-answer="4" type="button">
       <span class="m03-option-number">4</span>
-      <div class="m03-composition outer-square">
-        <div class="m03-shape outer square m03-green"></div>
-        <div class="m03-shape middle circle m03-red"></div>
-        <div class="m03-shape inner triangle m03-yellow"></div>
+      <div class="m03-composition outer-triangle">
+        <div class="m03-shape outer triangle m03-blue"></div>
+        <div class="m03-shape middle square m03-red"></div>
+        <div class="m03-shape inner circle m03-green"></div>
       </div>
     </button>
 
     <button class="m03-option" data-answer="5" type="button">
       <span class="m03-option-number">5</span>
       <div class="m03-composition outer-triangle">
-        <div class="m03-shape outer triangle m03-blue"></div>
-        <div class="m03-shape middle square m03-red"></div>
-        <div class="m03-shape inner circle m03-green"></div>
+        <div class="m03-shape outer triangle m03-green"></div>
+        <div class="m03-shape middle square m03-yellow"></div>
+        <div class="m03-shape inner circle m03-red"></div>
       </div>
     </button>
 
@@ -2578,13 +2720,18 @@ animation: restrictedPulse 2.4s ease-in-out infinite;
 
   </div>
 
+  <div class="m03-warning" role="note">
+    <strong>AVISO DEL SISTEMA</strong>
+    <span>UNA RESPUESTA INCORRECTA ACTIVARÁ UN BLOQUEO DE SEGURIDAD DE 03:00. PIENSA BIEN ANTES DE CONFIRMAR.</span>
+  </div>
+
   <div id="m03-error" class="m03-error">
     RESPUESTA INCORRECTA
   </div>
 
   <div id="m03-lock" class="m03-lock">
     <strong>SISTEMA BLOQUEADO</strong>
-    DEMASIADOS INTENTOS
+    <span class="m03-lock-message">POR SEGURIDAD, EL SISTEMA SE HA BLOQUEADO</span>
     <div id="m03-lock-countdown" class="m03-lock-countdown"></div>
   </div>
 
@@ -2622,6 +2769,10 @@ const quest = params.get("q");
 
 if (quest === "01") {
     showScreen("calibration");
+}
+
+if (params.get("m03test") === "1") {
+    showScreen("m03");
 }
 
     
@@ -2761,6 +2912,9 @@ updateCalibrationCode();
   const m03Complete =
     localStorage.getItem("questober_m03_complete") === "true";
 
+  const calibrationActivated =
+    localStorage.getItem("questober_calibration_activated") === "true";
+
 
   /* Reiniciar pilotos */
 
@@ -2859,16 +3013,20 @@ updateCalibrationCode();
 
   if (completedModules === 3) {
 
-    if (indicators[0]) {
-      indicators[0].classList.add("yellow");
-    }
+    if (calibrationActivated) {
+      indicators.forEach(indicator => indicator.classList.add("green"));
+    } else {
+      if (indicators[0]) {
+        indicators[0].classList.add("yellow");
+      }
 
-    if (indicators[1]) {
-      indicators[1].classList.add("yellow");
-    }
+      if (indicators[1]) {
+        indicators[1].classList.add("yellow");
+      }
 
-    if (indicators[2]) {
-      indicators[2].classList.add("yellow");
+      if (indicators[2]) {
+        indicators[2].classList.add("yellow");
+      }
     }
 
     if (warning) {
@@ -3119,6 +3277,112 @@ const m03Error = document.getElementById("m03-error");
 const m03Lock = document.getElementById("m03-lock");
 const m03LockCountdown = document.getElementById("m03-lock-countdown");
 
+function m03ColorClass(element) {
+  if (element.classList.contains("m03-red")) return "m03-red";
+  if (element.classList.contains("m03-yellow")) return "m03-yellow";
+  if (element.classList.contains("m03-green")) return "m03-green";
+  return "m03-blue";
+}
+
+function m03ShapeMarkup(shape, colorClass, role, outerShape) {
+  const attrs = `class="m03-svg-shape ${colorClass}"`;
+
+  /*
+     GEOMETRÍA MAESTRA M03
+     - Triángulos grandes y ligeramente elevados.
+     - Cuadrados dentro de triángulos ligeramente elevados.
+     - Elementos interiores centrados dentro de su contenedor.
+     - Separación visible entre todos los trazos.
+  */
+
+  if (role === "outer") {
+    if (shape === "square") {
+      return `<rect ${attrs} x="5" y="5" width="90" height="90" />`;
+    }
+
+    if (shape === "circle") {
+      return `<circle ${attrs} cx="50" cy="50" r="44" />`;
+    }
+
+    return `<polygon ${attrs} points="50,4 4,92 96,92" />`;
+  }
+
+  if (outerShape === "square") {
+    if (role === "middle" && shape === "circle") {
+      return `<circle ${attrs} cx="50" cy="50" r="33" />`;
+    }
+
+    if (role === "inner" && shape === "triangle") {
+      return `<polygon ${attrs} points="50,29 34,65 66,65" />`;
+    }
+  }
+
+  if (outerShape === "circle") {
+    if (role === "middle" && shape === "triangle") {
+      return `<polygon ${attrs} points="50,10 20,72 80,72" />`;
+    }
+
+    if (role === "inner" && shape === "square") {
+      return `<rect ${attrs} x="38" y="42" width="24" height="24" />`;
+    }
+  }
+
+  if (outerShape === "triangle") {
+    if (role === "middle" && shape === "square") {
+      return `<rect ${attrs} x="34" y="49" width="32" height="32" />`;
+    }
+
+    if (role === "inner" && shape === "circle") {
+      return `<circle ${attrs} cx="50" cy="65" r="9" />`;
+    }
+
+    /* Distractor 9: triángulo → círculo → cuadrado. */
+    if (role === "middle" && shape === "circle") {
+      return `<circle ${attrs} cx="50" cy="62" r="18" />`;
+    }
+
+    if (role === "inner" && shape === "square") {
+      return `<rect ${attrs} x="40" y="52" width="20" height="20" />`;
+    }
+  }
+
+  return "";
+}
+
+function renderM03Compositions() {
+  document.querySelectorAll(".m03-composition").forEach(composition => {
+    const outer = composition.querySelector(".m03-shape.outer");
+    const middle = composition.querySelector(".m03-shape.middle");
+    const inner = composition.querySelector(".m03-shape.inner");
+
+    if (!outer || !middle || !inner) return;
+
+    const outerShape = [...outer.classList].find(c => ["square", "circle", "triangle"].includes(c));
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "m03-svg");
+    svg.setAttribute("viewBox", "0 0 100 100");
+    svg.setAttribute("aria-hidden", "true");
+
+    const shapes = [
+      [outer, "outer"],
+      [middle, "middle"],
+      [inner, "inner"]
+    ];
+
+    shapes.forEach(([element, role]) => {
+      const shape = [...element.classList].find(c => ["square", "circle", "triangle"].includes(c));
+      const colorClass = m03ColorClass(element);
+      const markup = m03ShapeMarkup(shape, colorClass, role, outerShape);
+      if (markup) svg.insertAdjacentHTML("beforeend", markup);
+    });
+
+    composition.innerHTML = "";
+    composition.appendChild(svg);
+  });
+}
+
+renderM03Compositions();
+
 let m03SelectedAnswer = null;
 let m03LockTimer = null;
 
@@ -3156,6 +3420,10 @@ function setM03Disabled(disabled) {
 
 function stopM03Lock() {
 
+  m03Options.forEach(option => {
+    option.classList.remove("m03-lock-blink");
+  });
+
   if (m03LockTimer) {
     clearInterval(m03LockTimer);
     m03LockTimer = null;
@@ -3176,6 +3444,19 @@ function stopM03Lock() {
 function startM03Lock(lockUntil) {
 
   setM03Disabled(true);
+
+  const selectedOption =
+    [...m03Options].find(option => option.dataset.answer === m03SelectedAnswer);
+
+  m03Options.forEach(option => option.classList.remove("selected"));
+
+  if (selectedOption) {
+    selectedOption.classList.add("m03-lock-blink");
+  }
+
+  if (m03Error) {
+    m03Error.style.display = "none";
+  }
 
   if (m03Lock) {
     m03Lock.style.display = "block";
@@ -3371,6 +3652,12 @@ function validateCalibrationCode() {
     indicators[2]?.classList.add("yellow");
   }
 
+  const calibrationStatus = document.getElementById("calibration-status");
+
+  if (calibrationStatus) {
+    calibrationStatus.textContent = correct ? "ESTADO: COMPLETO" : "ESTADO: INCOMPLETO";
+  }
+
   if (correct) {
 
     calibrationActivation.classList.remove("locked");
@@ -3385,9 +3672,60 @@ function validateCalibrationCode() {
 
 }
 
+function applyCalibrationActivationState() {
+
+  const activated =
+    localStorage.getItem("questober_calibration_activated") === "true";
+
+  const panelStatus = document.getElementById("panel-system-status");
+  const powerLight = document.getElementById("power-light");
+  const powerValue = document.getElementById("power-value");
+  const systemValue = document.getElementById("system-value");
+  const accessValue = document.getElementById("access-value");
+  const coreIndicator = document.getElementById("core-indicator");
+  const calibrationStatus = document.getElementById("calibration-status");
+
+  if (!activated) {
+    return;
+  }
+
+  if (panelStatus) {
+    panelStatus.textContent = "ACTIVO";
+    panelStatus.classList.add("active");
+  }
+
+  if (powerLight) {
+    powerLight.classList.remove("standby");
+    powerLight.classList.add("on");
+  }
+
+  if (powerValue) {
+    powerValue.textContent = "ON";
+  }
+
+  if (systemValue) {
+    systemValue.textContent = "ACTIVO";
+    systemValue.classList.add("system-active");
+  }
+
+  if (accessValue) {
+    accessValue.textContent = "CONCEDIDO";
+    accessValue.classList.add("access-granted");
+  }
+
+  if (coreIndicator) {
+    coreIndicator.classList.add("active");
+  }
+
+  if (calibrationStatus) {
+    calibrationStatus.textContent = "ESTADO: COMPLETO";
+  }
+}
+
 loadCalibrationCode();
 updateCalibrationCode();
 validateCalibrationCode();
+applyCalibrationActivationState();
 
 codeArrows.forEach(button => {
 
@@ -3431,6 +3769,8 @@ if (calibrationActivation) {
     }
 
     this.classList.add("activated");
+    localStorage.setItem("questober_calibration_activated", "true");
+    applyCalibrationActivationState();
 
     const handle = this.querySelector(".switch-handle");
 
@@ -3441,8 +3781,29 @@ if (calibrationActivation) {
         "0 0 10px rgba(44,199,121,.7)";
     }
 
+    setTimeout(() => {
+      showScreen("mission-ready");
+    }, 2600);
+
   });
 
+}
+
+if (localStorage.getItem("questober_calibration_activated") === "true" && calibrationActivation) {
+  calibrationActivation.classList.remove("locked");
+  calibrationActivation.classList.add("ready", "activated");
+  const handle = calibrationActivation.querySelector(".switch-handle");
+  if (handle) {
+    handle.style.bottom = "26px";
+    handle.style.background = "#2cc779";
+    handle.style.boxShadow = "0 0 10px rgba(44,199,121,.7)";
+  }
+
+  if (!params.get("m03test")) {
+    setTimeout(() => {
+      showScreen("mission-ready");
+    }, 0);
+  }
 }
 
   </script>
